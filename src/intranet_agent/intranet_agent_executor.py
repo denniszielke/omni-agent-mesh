@@ -15,7 +15,7 @@ from a2a.types import (
 )
 from a2a.utils import new_task, new_text_artifact
 from agent_framework import HostedMCPTool
-from src.intranet_agent.model_client import create_chat_client as _create_openai_client
+from intranet_agent.model_client import create_chat_client as _create_openai_client
 from dotenv import load_dotenv
 
 load_dotenv()

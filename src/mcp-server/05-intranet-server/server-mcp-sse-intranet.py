@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from datetime import datetime
-
+import os
 import pytz
 import uvicorn
 from dotenv import load_dotenv
@@ -111,7 +111,8 @@ async def check_mcp(mcp: FastMCP):
 if __name__ == "__main__":
     try:
         asyncio.run(check_mcp(mcp))
-        uvicorn.run(streamable_http_app, host="0.0.0.0", port=8001)
+        port = int(os.getenv("PORT", "8080"))
+        uvicorn.run(streamable_http_app, host="0.0.0.0", port=port)
     except KeyboardInterrupt:
         print("\nProgram interrupted by user. Cleaning up...")
     except Exception as e:

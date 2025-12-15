@@ -30,8 +30,15 @@ get and set the value for AZURE_ENV_NAME
 ```
 source <(azd env get-values | grep AZURE_ENV_NAME)
 
-echo "building and deploying the workflow agents"
-bash ./azd-hooks/deploy.sh workflows $AZURE_ENV_NAME
+echo "building and deploying the work_env_agent agents"
+bash ./azd-hooks/deploy.sh work_env_agent $AZURE_ENV_NAME
+
+
+echo "building and deploying the intranet_agent agents"
+bash ./azd-hooks/deploy.sh intranet_agent $AZURE_ENV_NAME
+
+echo "building and deploying the intranet mcp server"
+bash ./azd-hooks/deploy-mcp.sh 05-intranet-server $AZURE_ENV_NAME
 ```
 
 ## 3. Configure environment (`.env`)

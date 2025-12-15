@@ -1,0 +1,212 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font stack */
+    margin: 0;
+    padding: 0;
+    background-color: #F8F9FA; /* Lighter, cleaner background */
+    color: #343A40; /* Darker gray for better contrast */
+    line-height: 1.6;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px; /* Add some space at the top */
+    margin-bottom: 30px; /* Increased bottom margin */
+    color: #0056b3; /* Slightly more muted blue */
+    font-size: 2em; /* Adjust size as needed */
+}
+
+.container {
+    display: flex;
+    padding: 0 20px 20px 20px; /* Add padding to the sides and bottom of container */
+}
+
+.left-column {
+    width: 30%;
+    padding: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Softer shadow */
+    border-radius: 8px; /* Rounded corners */
+    margin-right: 20px; /* Space between columns */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.right-column {
+    width: 70%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Softer shadow */
+    border-radius: 8px; /* Rounded corners */
+    overflow-y: auto;
+    background-image: url('background.png');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+p.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+button {
+    background-color: #007BFF; /* Standard professional blue */
+    color: white;
+    border: none;
+    padding: 12px 24px; /* Increased padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500; /* Slightly bolder text */
+    margin: 10px 2px;
+    cursor: pointer;
+    border-radius: 6px; /* Slightly more rounded */
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transitions */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Enhanced shadow on hover */
+}
+
+button:active {
+    transform: translateY(0px); /* Button press effect */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#startSessionBtn {
+    transition: background 0.3s, color 0.3s;
+}
+
+#startSessionBtn:not(.audio-active):hover {
+    background-color: #0056b3; /* Ensure hover for non-active state is standard */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+#startSessionBtn.audio-active {
+    background-color: #28A745; /* Professional green */
+    color: #fff;
+    animation: pulse 1.5s infinite; /* Keep existing pulse */
+    border: none;
+}
+
+#startSessionBtn.audio-active:hover {
+    background-color: #1E7E34; /* Darker green for hover on active */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+#closeSessionBtn {
+    display: none; 
+    background-color: #DC3545; /* Professional red */
+}
+
+#closeSessionBtn:hover {
+    background-color: #C82333; /* Darker red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+#logContainerSystem {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #6C757D; /* Muted color for system logs */
+}
+
+#logContainerSystem p {
+    margin: 3px 0;
+    padding: 5px;
+    background-color: #F8F9FA;
+    border-left: 3px solid #6C757D;
+    border-radius: 3px;
+    word-break: break-all;
+}
+
+#logContainer {
+    background-color: #f8f9fa89; /* Consistent light background */
+    padding: 15px;
+    border-radius: 6px;
+    height: calc(100vh - 180px); /* Adjust height considering h1 and container padding */
+    overflow-y: auto;
+}
+
+#logContainer p.message { /* Target paragraphs with class 'message' inside logContainer */
+    margin: 8px 0; /* Increased margin for better separation */
+    padding: 10px 12px; /* Adjusted padding */
+    background-color: #FFFFFF; /* White background for messages */
+    border-left-width: 4px; /* Thicker border */
+    border-left-style: solid;
+    border-radius: 4px;
+    line-height: 1.5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Subtle shadow for each message */
+}
+
+.User-message {
+    text-align: right;
+    color: #005A9C; 
+    border-left-color: #005A9C !important; /* Use !important if needed to override general #logContainer p */
+}
+
+.Voice-Agent-message {
+    text-align: left;
+    color: #4A4A4A; 
+    border-left-color: #4A4A4A !important; /* Use !important if needed to override general #logContainer p */
+}
+
+.Voice-Agent-message a {
+    color: #0056b3; /* Link color consistent with h1 */
+    text-decoration: underline;
+}
+
+.Voice-Agent-message a:hover {
+    color: #003d80; /* Darker blue on hover */
+    text-decoration: none;
+}
+
+#audioElement {
+    display: block;
+    margin-top: 10px;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); /* Adjusted pulse color to match active green */
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+
+#audioStatus {
+  display: none;
+  margin-left: 10px;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+#logContainer p:not(.message) { /* Style for any other paragraphs in logContainer if any */
+    background-color: transparent;
+    border-left: none;
+    padding: 2px 0;
+}
