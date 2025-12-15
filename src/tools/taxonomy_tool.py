@@ -19,6 +19,11 @@ class TaxonomyTool():
                 "terms": ["Location", "LocationID", "City", "State", "Country"],
                 "common_filters": ["Country", "State"]
             },
+            "Payments": {
+                "description": "Payment and benefits information",
+                "terms": ["Payment", "Short Term Incentive (STI)", "Bonus", "Salary", "HealthInsurance"],
+                "common_filters": ["Salary", "Bonus"]
+            }
         }
 
     def list_all_domains(self) -> str:

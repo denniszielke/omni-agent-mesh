@@ -14,10 +14,10 @@ load_dotenv()
 """
 Agent2Agent (A2A) Protocol Integration Sample
 
-This sample demonstrates how to connect to and communicate with external agents using
-the A2A protocol. A2A is a standardized communication protocol that enables interoperability
-between different agent systems, allowing agents built with different frameworks and
-technologies to communicate seamlessly.
+This sample demonstrates how to connect to and communicate with the Work Environment
+agent using the Agent2Agent (A2A) protocol. A2A is a standardized communication
+protocol that enables interoperability between different agent systems, allowing
+agents built with different frameworks and technologies to communicate seamlessly.
 
 For more information about the A2A protocol specification, visit: https://a2a-protocol.org/latest/
 
@@ -28,10 +28,10 @@ Key concepts demonstrated:
 - Handling A2A responses (Messages and Tasks) back to framework types
 
 To run this sample:
-1. Set the A2A_AGENT_HOST environment variable to point to an A2A-compliant agent endpoint
-   Example: export A2A_AGENT_HOST="https://your-a2a-agent.example.com"
-2. Ensure the target agent exposes its AgentCard at /.well-known/agent.json
-3. Run: uv run python agent_with_a2a.py
+1. Start the Work Environment agent server: `uv run python -m src.work_env_agent.main`
+2. (Optional) Set the A2A_AGENT_HOST environment variable to a remote WorkEnv endpoint if you are not using the default `http://localhost:8080`
+3. Ensure the target agent exposes its AgentCard at /.well-known/agent.json
+4. Run: `uv run python -m src.agent_clients.work_env_agent_client`
 
 The sample will:
 - Connect to the specified A2A agent endpoint
@@ -45,10 +45,8 @@ Visit the README.md for more details on setting up and running A2A agents.
 
 async def main():
     """Demonstrates connecting to and communicating with an A2A-compliant agent."""
-    # Get A2A agent host from environment
-    a2a_agent_host = os.getenv("A2A_AGENT_HOST")
-    if not a2a_agent_host:
-        raise ValueError("A2A_AGENT_HOST environment variable is not set")
+    # Get A2A agent host from environment, defaulting to the local WorkEnv agent
+    a2a_agent_host = os.getenv("A2A_AGENT_HOST", "http://localhost:8080")
 
     print(f"Connecting to A2A agent at: {a2a_agent_host}")
 
@@ -72,19 +70,21 @@ async def main():
         print(agent_card)
 
         # Invoke the agent and output the result
-        print("\nSending message to A2A agent...")
-        response = await agent.run("What are your capabilities?")
+        print("\nSending message to Work Environment agent...")
+        response = await agent.run(
+            "How many vacation days do employees in Germany receive?"
+        )
 
         # Print the response
         print("\nAgent Response:")
         for message in response.messages:
             print(message.text)
 
-        # Invoke the agent and output the result
-        print("\nSending message to A2A agent...")
-        response = await agent.run("What is the weather in New York City today?")
+        print("\nSending message to Work Environment agent...")
+        response = await agent.run(
+            "What benefits are available for full-time employees?"
+        )
 
-        # Print the response
         print("\nAgent Response:")
         for message in response.messages:
             print(message.text)

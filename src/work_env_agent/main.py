@@ -16,7 +16,7 @@ from a2a.types import (
     SendMessageRequest,
     SendMessageResponse,
 )
-from weather_agent.weather_agent_executor import WeatherAgentExecutor, weather_agent_card
+from src.work_env_agent.work_env_agent_executor import WorkEnvAgentExecutor, work_env_agent_card
 
 class A2ARequestHandler(DefaultRequestHandler):
     """A2A Request Handler for the A2A Repo Agent."""
@@ -46,7 +46,7 @@ def main(host: str, port: int):
 
     task_store = InMemoryTaskStore()
     request_handler = A2ARequestHandler(
-        agent_executor=WeatherAgentExecutor(),
+        agent_executor=WorkEnvAgentExecutor(),
         task_store=task_store,
     )
 
@@ -56,7 +56,7 @@ def main(host: str, port: int):
         url = f'http://{host}:{port}/'
 
     server = A2AStarletteApplication(
-        agent_card=weather_agent_card(url=url), http_handler=request_handler
+        agent_card=work_env_agent_card(url=url), http_handler=request_handler
     )
 
     app = server.build()

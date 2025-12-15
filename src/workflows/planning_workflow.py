@@ -37,7 +37,7 @@ from src.data.query_example import QueryExample
 from src.data.query_execution_result import QueryExecutionResult
 from src.tools.taxonomy_tool import TaxonomyTool
 from src.data.query_example import QueryExample
-from workflows.model_client import create_chat_client, create_embedding_client, setup_azure_ai_observability
+from src.workflows.model_client import create_chat_client, create_embedding_client, setup_azure_ai_observability
 
 from opentelemetry.trace import SpanKind
 from opentelemetry.trace.span import format_trace_id
