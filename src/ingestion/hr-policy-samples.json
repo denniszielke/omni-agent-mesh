@@ -1,0 +1,461 @@
+[
+	{
+		"id": "1",
+		"content": "What is the company's working hour policy? Employees must follow an 8-hour work schedule, with flexible timing options based on department needs.",
+		"description": "companies working hours policy",
+		"intent": "working-hours-policy",
+		"category": "hr-policies",
+		"complexity": "basic",
+		"score": 0.9
+	},
+	{
+		"id": "2",
+		"content": "How do I request time off or leave? Submit a leave request through the HR portal; approval is subject to manager discretion.",
+		"description": "requesting time off or leave procedure",
+		"intent": "time-off-request",
+		"category": "hr-policies",
+		"complexity": "basic",
+		"score": 0.9
+	},
+	{
+		"id": "3",
+		"content": "What are the rules for remote work? Remote work is allowed based on departmental policies and must be pre-approved by management.",
+		"description": "remote work policy",
+		"intent": "remote-work-policy",
+		"category": "hr-policies",
+		"complexity": "basic",
+		"score": 0.89
+	},
+	{
+		"id": "4",
+		"content": "How does the company handle workplace harassment complaints? Report complaints to HR via the grievance redressal system; strict confidentiality is maintained.",
+		"description": "workplace harassment complaint process",
+		"intent": "harassment-complaint",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.92
+	},
+	{
+		"id": "5",
+		"content": "What is the dress code policy? Business casual is required; exceptions are allowed on designated casual dress days.",
+		"description": "dress code expectations",
+		"intent": "dress-code-policy",
+		"category": "hr-policies",
+		"complexity": "basic",
+		"score": 0.88
+	},
+	{
+		"id": "6",
+		"content": "How do I apply for an internal job posting? Check the internal job portal and submit an application as per company guidelines.",
+		"description": "internal job application process",
+		"intent": "internal-job-application",
+		"category": "hr-policies",
+		"complexity": "basic",
+		"score": 0.9
+	},
+	{
+		"id": "7",
+		"content": "What is the probation period for new employees? Most employees undergo a 3 to 6-month probation period, depending on the role.",
+		"description": "new employee probation period",
+		"intent": "probation-period",
+		"category": "hr-policies",
+		"complexity": "basic",
+		"score": 0.87
+	},
+	{
+		"id": "8",
+		"content": "How often is performance evaluated? Performance is reviewed annually, with mid-year assessments for continuous feedback.",
+		"description": "performance review frequency",
+		"intent": "performance-evaluation-frequency",
+		"category": "hr-policies",
+		"complexity": "basic",
+		"score": 0.91
+	},
+	{
+		"id": "9",
+		"content": "How do I file a workplace complaint? Submit a formal complaint via the HR portal or report directly to the HR department.",
+		"description": "workplace complaint submission",
+		"intent": "file-workplace-complaint",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "10",
+		"content": "Can I refer someone for a job at the company? Yes, the company has an employee referral program with incentives for successful hires.",
+		"description": "employee referral program",
+		"intent": "employee-referral",
+		"category": "hr-policies",
+		"complexity": "basic",
+		"score": 0.93
+	},
+	{
+		"id": "11",
+		"content": "When do employees receive their salary? Salaries are credited on the last working day of every month.",
+		"description": "salary credit schedule",
+		"intent": "salary-payment-schedule",
+		"category": "compensation-benefits",
+		"complexity": "basic",
+		"score": 0.9
+	},
+	{
+		"id": "12",
+		"content": "What benefits does the company provide? Benefits include health insurance, paid leave, retirement plans, and wellness programs.",
+		"description": "company benefits overview",
+		"intent": "benefits-overview",
+		"category": "compensation-benefits",
+		"complexity": "basic",
+		"score": 0.88
+	},
+	{
+		"id": "13",
+		"content": "How do I access my payslip? Payslips are available through the HR portal under the payroll section.",
+		"description": "payslip access instructions",
+		"intent": "access-payslip",
+		"category": "compensation-benefits",
+		"complexity": "basic",
+		"score": 0.91
+	},
+	{
+		"id": "14",
+		"content": "What is the company's overtime policy? Overtime is compensated as per labor laws, subject to prior approval from managers.",
+		"description": "overtime compensation policy",
+		"intent": "overtime-policy",
+		"category": "compensation-benefits",
+		"complexity": "intermediate",
+		"score": 0.92
+	},
+	{
+		"id": "15",
+		"content": "Does the company offer bonuses or incentives? Yes, performance-based bonuses and incentives are awarded annually.",
+		"description": "bonus and incentive program",
+		"intent": "bonuses-and-incentives",
+		"category": "compensation-benefits",
+		"complexity": "basic",
+		"score": 0.87
+	},
+	{
+		"id": "16",
+		"content": "How do I claim reimbursement for work-related expenses? Submit a claim through the HR portal with the necessary receipts and approvals.",
+		"description": "expense reimbursement process",
+		"intent": "expense-reimbursement",
+		"category": "compensation-benefits",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "17",
+		"content": "What is the retirement age in the company? The standard retirement age is 60, with early retirement options available.",
+		"description": "company retirement age",
+		"intent": "retirement-age",
+		"category": "compensation-benefits",
+		"complexity": "basic",
+		"score": 0.85
+	},
+	{
+		"id": "18",
+		"content": "Can I take unpaid leave? Unpaid leave is allowed in special cases, subject to HR and manager approval.",
+		"description": "unpaid leave policy",
+		"intent": "unpaid-leave",
+		"category": "compensation-benefits",
+		"complexity": "intermediate",
+		"score": 0.86
+	},
+	{
+		"id": "19",
+		"content": "How do I apply for maternity or paternity leave? Submit an application at least 30 days in advance with supporting documents.",
+		"description": "parental leave application process",
+		"intent": "parental-leave",
+		"category": "compensation-benefits",
+		"complexity": "intermediate",
+		"score": 0.93
+	},
+	{
+		"id": "20",
+		"content": "Does the company provide financial assistance for employees in emergencies? Yes, emergency financial aid is available on a case-by-case basis.",
+		"description": "emergency financial assistance",
+		"intent": "emergency-financial-aid",
+		"category": "compensation-benefits",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "21",
+		"content": "What training programs does the company offer? The company provides leadership, technical, and soft skills training programs.",
+		"description": "training programs overview",
+		"intent": "training-programs",
+		"category": "training-development",
+		"complexity": "basic",
+		"score": 0.88
+	},
+	{
+		"id": "22",
+		"content": "How do I enroll in a training course? Training courses are available in the HR portal; employees can self-enroll or be nominated.",
+		"description": "training course enrollment",
+		"intent": "training-enrollment",
+		"category": "training-development",
+		"complexity": "basic",
+		"score": 0.89
+	},
+	{
+		"id": "23",
+		"content": "Does the company sponsor higher education? Yes, employees can apply for tuition reimbursement for approved programs.",
+		"description": "higher education sponsorship",
+		"intent": "tuition-reimbursement",
+		"category": "training-development",
+		"complexity": "intermediate",
+		"score": 0.91
+	},
+	{
+		"id": "24",
+		"content": "How do promotions work within the company? Promotions are based on performance, experience, and company needs, reviewed annually.",
+		"description": "promotion evaluation criteria",
+		"intent": "promotion-process",
+		"category": "training-development",
+		"complexity": "intermediate",
+		"score": 0.92
+	},
+	{
+		"id": "25",
+		"content": "Is mentorship available within the company? Yes, employees can apply for mentorship programs to develop career growth.",
+		"description": "mentorship program availability",
+		"intent": "mentorship-program",
+		"category": "training-development",
+		"complexity": "basic",
+		"score": 0.87
+	},
+	{
+		"id": "26",
+		"content": "What are the consequences of policy violations? Policy violations may result in disciplinary action, including warnings, suspension, or termination.",
+		"description": "policy violation consequences",
+		"intent": "policy-violation-consequences",
+		"category": "company-policy",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "27",
+		"content": "How does the company handle workplace conflicts? HR facilitates mediation sessions to resolve conflicts professionally.",
+		"description": "workplace conflict resolution",
+		"intent": "conflict-resolution",
+		"category": "company-policy",
+		"complexity": "basic",
+		"score": 0.88
+	},
+	{
+		"id": "28",
+		"content": "Can I request flexible working hours? Yes, flexible work schedules can be arranged based on department and manager approval.",
+		"description": "flexible working hours request",
+		"intent": "flexible-hours",
+		"category": "company-policy",
+		"complexity": "intermediate",
+		"score": 0.89
+	},
+	{
+		"id": "29",
+		"content": "Are employees allowed to take sabbaticals? Sabbatical leave is available for long-term employees under special circumstances.",
+		"description": "sabbatical leave policy",
+		"intent": "sabbatical-leave",
+		"category": "company-policy",
+		"complexity": "intermediate",
+		"score": 0.91
+	},
+	{
+		"id": "30",
+		"content": "How can I contact HR for additional questions? HR can be contacted via email, the HR portal, or in person during office hours.",
+		"description": "contact HR options",
+		"intent": "contact-hr",
+		"category": "company-policy",
+		"complexity": "basic",
+		"score": 0.9
+	},
+	{
+		"id": "31",
+		"content": "What law governs statutory vacation entitlement in Germany? The Federal Vacation Act (BUrlG) ensures every employee receives paid annual leave, regardless of full-time, part-time, or mini-job status.",
+		"description": "legal basis of statutory vacation entitlement",
+		"intent": "statutory-vacation-law",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "32",
+		"content": "How many days of statutory vacation are required each year? Employees working six days per week must receive at least 24 working days, while a five-day schedule equates to a minimum of 20 days, reflecting four weeks of paid leave.",
+		"description": "minimum statutory vacation days",
+		"intent": "minimum-statutory-vacation",
+		"category": "hr-policies",
+		"complexity": "basic",
+		"score": 0.91
+	},
+	{
+		"id": "33",
+		"content": "How long can unused statutory vacation be carried over? Remaining statutory leave usually expires on 31 March of the following year unless special circumstances extend the deadline.",
+		"description": "deadline for unused statutory vacation",
+		"intent": "rest-leave-deadline",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.88
+	},
+	{
+		"id": "34",
+		"content": "How is vacation entitlement calculated for different work schedules? The legal minimum equals four working weeks, so part-time staff receive a prorated number of days based on the days they actually work (e.g., three-day schedules earn twelve days).",
+		"description": "pro-rated vacation calculation",
+		"intent": "vacation-proration",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.89
+	},
+	{
+		"id": "35",
+		"content": "What vacation do new hires receive during the first months? During the six-month waiting period, they accrue one-twelfth of their annual entitlement per full month worked and gain the full allotment once the period ends.",
+		"description": "vacation entitlement during probation",
+		"intent": "partial-vacation-new-hires",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "36",
+		"content": "Is statutory vacation tied to an employee’s age? Only minors receive higher minimums under the Youth Employment Protection Act (e.g., 30 days before age 16), while adults share the same baseline and employers may voluntarily grant extra days to older staff.",
+		"description": "age-specific vacation entitlements",
+		"intent": "vacation-by-age",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.88
+	},
+	{
+		"id": "37",
+		"content": "What happens if an employee falls ill during approved vacation? They should obtain a medical certificate immediately and inform the employer so the affected days are restored to their balance.",
+		"description": "vacation during illness",
+		"intent": "vacation-illness-procedure",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "38",
+		"content": "How is unused vacation handled when employment ends? Depending on the termination date, remaining days must be granted or paid out, with partial entitlement applying before 30 June and the full amount after the waiting period is met.",
+		"description": "vacation rights at termination",
+		"intent": "vacation-termination-rules",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "39",
+		"content": "Do employees have a statutory right to special leave for events like weddings or bereavements? Section 616 BGB allows paid absence for short, personal reasons, but granting special leave ultimately depends on employer discretion and any applicable collective agreements.",
+		"description": "special leave statutory guidance",
+		"intent": "special-leave-guidance",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.88
+	},
+	{
+		"id": "40",
+		"content": "What statutory vacation entitlement applies in Germany? The Federal Vacation Act (BUrlG) guarantees employees at least four weeks of paid leave (24 working days in a six-day schedule or 20 in a five-day week), with part-time entitlements prorated. New hires accrue one twelfth of their allowance per completed month during the initial six-month waiting period, sick days with a medical certificate restore leave, unused days normally expire on 31 March of the following year, and any remaining leave at termination must be granted or paid out. Minors receive higher minima under the Youth Protection Act, while special leave for major life events remains at the employer's discretion.",
+		"description": "statutory vacation entitlement overview",
+		"intent": "statutory-vacation-entitlement",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "41",
+		"content": "How does the Federal Vacation Act help align company needs with employees' leave wishes? The BUrlG defines the minimum paid rest vacation for all workers and reminds HR to plan schedules that balance operational requirements with employees' preferred dates, ensuring employers and workers know their rights and duties.",
+		"description": "BUrlG planning obligations",
+		"intent": "burlg-planning",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "42",
+		"content": "How is the legal minimum vacation calculated for part-time employees? Use the formula (working days per week / 6) × 24 to scale the entitlement, so someone working three days weekly receives (3/6) × 24 = 12 paid vacation days each year.",
+		"description": "part-time vacation scaling",
+		"intent": "part-time-vacation-calculation",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "43",
+		"content": "How does vacation accrue during probation? Employers calculate vacation as (months worked / 12) × annual entitlement, so after three months with a 24-day entitlement the employee has (3/12) × 24 = 6 days, which grows to the full amount after six months.",
+		"description": "vacation accrual in probation",
+		"intent": "probation-vacation-accrual",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "44",
+		"content": "Can collective agreements grant more vacation than the law? Yes, tariff or company agreements can provide extra days beyond the BUrlG minimum, and those negotiated values replace the statutory baseline for covered employees.",
+		"description": "collective vacation enhancements",
+		"intent": "collective-vacation-bonus",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.88
+	},
+	{
+		"id": "45",
+		"content": "Do severely disabled employees receive extra vacation? Section 208 SGB I grants five additional paid days annually, adjusted according to their weekly schedule, and any other agreements that award even more time remain valid.",
+		"description": "severely disabled vacation rights",
+		"intent": "severely-disabled-vacation",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "46",
+		"content": "What happens to remaining vacation when employment ends? Employers must allow the use of accrued days during the notice period unless operational needs prevent it, in which case the remaining vacation is paid out; partial totals use prorated math for first-half resignations and full entitlement after six months or during the second half of the year.",
+		"description": "termination vacation handling",
+		"intent": "termination-vacation-handling",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "47",
+		"content": "How is vacation pay computed under the BUrlG? Employers calculate Urlaubsentgelt using the average earnings from the 13 weeks before vacation starts so employees keep their usual income during leave; it is not an extra bonus but ensures financial stability while resting.",
+		"description": "vacation pay calculation",
+		"intent": "vacation-pay-calculation",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "48",
+		"content": "What rights exist for consecutive vacation? According to § 7 Abs. 2 BUrlG employees can request at least 12 continuous days, and employers may only refuse for urgent business reasons or if another employee has precedence for social reasons such as school holidays.",
+		"description": "consecutive vacation rights",
+		"intent": "consecutive-vacation-rights",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "49",
+		"content": "Can leftover vacation be carried over? Leave normally expires at year end, but employers must warn workers, highlight pending days, and encourage taking them; only after proper notice can unused time be pushed into the next year per the 2022 BAG ruling.",
+		"description": "vacation carryover notice",
+		"intent": "carryover-notice",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "50",
+		"content": "Is unpaid leave supported by law? There is no automatic right, but § 616 BGB allows short periods off for personal reasons without fault, and employers may also grant unpaid leave for other events out of care, typically regulated in collective agreements.",
+		"description": "legal basis for unpaid leave",
+		"intent": "unpaid-leave-basis",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.9
+	},
+	{
+		"id": "51",
+		"content": "Can employees apply for sabbaticals or long-term unpaid leave? Such arrangements are not guaranteed by law but can be created through company or tariff agreements, and structured programs help employees plan extended breaks with mutual commitments.",
+		"description": "sabbatical and long-term leave",
+		"intent": "sabbatical-request",
+		"category": "hr-policies",
+		"complexity": "intermediate",
+		"score": 0.88
+	}
+]

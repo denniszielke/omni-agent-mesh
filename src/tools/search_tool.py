@@ -75,7 +75,7 @@ class QuerySearchTool():
             results = self.search_client.search(  
                 search_text=None,  
                 vector_queries= [vector_query],
-                select=["query", "description", "intent", "category", "complexity", "id"],
+                select=["content", "description", "intent", "category", "complexity", "id"],
                 top=top_k,
             )  
   
@@ -114,7 +114,7 @@ class QuerySearchTool():
             for result in results:
                 example = QueryExample(
                     id =result.get("id", ""),
-                    query=result.get("query", ""),
+                    content=result.get("content", ""),
                     description=result.get("description", ""),
                     intent=result.get("intent", ""),
                     category=result.get("category"),

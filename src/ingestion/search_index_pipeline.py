@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import sys
 from typing import List, Optional
 
 from azure.core.credentials import AzureKeyCredential
@@ -153,7 +154,7 @@ class SearchIndexMaintainer:
         
         fields = [
             SearchField(name="id", type=SearchFieldDataType.String, key=True),
-            SearchField(name="query", type=SearchFieldDataType.String, searchable=True),
+            SearchField(name="content", type=SearchFieldDataType.String, searchable=True),
             SearchField(name="description", type=SearchFieldDataType.String, searchable=True),
             SearchField(name="intent", type=SearchFieldDataType.String, searchable=True, filterable=True, facetable=True),
             SearchField(name="category", type=SearchFieldDataType.String, searchable=True, filterable=True, facetable=True),
@@ -190,7 +191,7 @@ class SearchIndexMaintainer:
             logger.debug(f"Processing sample {i+1}/{len(payload)}: {item.get('description', 'N/A')[:50]}...")
             doc = {
                 "id": item.get("id") or str(i),
-                "query": item["query"],
+                "content": item["content"],
                 "description": item.get("description", ""),
                 "intent": item.get("intent", ""),
                 "category": item.get("category"),
@@ -200,7 +201,7 @@ class SearchIndexMaintainer:
             
             try:
                 content_response = openai_client.embeddings.create(
-                    input=doc["description"],
+                    input=doc["content"],
                     model=self.embedding_model,
                     dimensions=self.embedding_dimensions
                 )
@@ -306,7 +307,8 @@ if __name__ == "__main__":
         level=logging.INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
+    filename = sys.argv[1] if len(sys.argv) > 1 else None
     logger.info("Starting search index pipeline...")
     maintainer = SearchIndexMaintainer()
-    maintainer.upload_samples()
+    maintainer.upload_samples(filename)
     logger.info("Search index pipeline completed.")
