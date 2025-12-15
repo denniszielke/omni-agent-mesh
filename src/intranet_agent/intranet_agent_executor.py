@@ -14,7 +14,7 @@ from a2a.types import (
     TaskStatusUpdateEvent,
 )
 from a2a.utils import new_task, new_text_artifact
-from agent_framework import HostedMCPTool
+from agent_framework import MCPStreamableHTTPTool
 from src.intranet_agent.model_client import create_chat_client as _create_openai_client
 from dotenv import load_dotenv
 
@@ -204,10 +204,9 @@ class IntranetAgentExecutor(AgentExecutor):
                 "Use the available tools to search the HR knowledge base and provide accurate, helpful answers. "
                 "Always cite relevant policies when applicable. Be professional and concise."
             ),
-            tools=HostedMCPTool(
+            tools=MCPStreamableHTTPTool(
                 name="HR Intranet MCP",
                 url=self.mcp_server_url,
-                approval_mode="never_require",  # Auto-approve all tool calls
             ),
         ) as agent:
             result = await agent.run(query)
