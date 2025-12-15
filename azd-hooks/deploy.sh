@@ -16,7 +16,8 @@ echo "No environment name provided - aborting"
 exit 0;
 fi
 
-if [[ $APP_NAME =~ ^[a-z0-9]{5,12}$ ]]; then
+
+if [[ $APP_NAME =~ ^[a-z0-9/_-]{5,15}$ ]]; then
     echo "app name $APP_NAME is valid"
 else
     echo "app name $APP_NAME  is invalid - only numbers and lower case min 5 and max 12 characters allowed - aborting"
@@ -42,11 +43,11 @@ SEARCH_NAME=$(az resource list -g $RESOURCE_GROUP --resource-type "Microsoft.Sea
 SERVICE_NAME=$APP_NAME
 AZURE_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 
-AZURE_AI_SEARCH_INDEX_NAME="queries-index"
+AZURE_AI_SEARCH_INDEX_NAME="hr-policies-index"
 AZURE_OPENAI_SMALL_CHAT_MODEL="gpt-4.1-mini"
 AZURE_OPENAI_SMALL_CHAT_DEPLOYMENT_NAME="gpt-4.1-mini"
-AZURE_OPENAI_BIG_CHAT_MODEL="gpt-5-nano"
-AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME="gpt-5-nano"
+AZURE_OPENAI_BIG_CHAT_MODEL="gpt-5-mini"
+AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME="gpt-5-mini"
 AZURE_OPENAI_VERSION="2024-10-21"
 AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME="text-embedding-3-small"
 AZURE_OPENAI_EMBEDDING_MODEL="text-embedding-3-small"
@@ -77,6 +78,8 @@ az acr build --subscription ${AZURE_SUBSCRIPTION_ID} --registry ${AZURE_CONTAINE
 IMAGE_NAME="${AZURE_CONTAINER_REGISTRY_NAME}.azurecr.io/$SERVICE_NAME:$IMAGE_TAG"
 
 echo "deploying image: $IMAGE_NAME"
+
+SERVICE_NAME="${APP_NAME//_/-}"
 
 az deployment group create -g $RESOURCE_GROUP -f ./infra/app/frontend.bicep \
           -p name=$SERVICE_NAME -p location=$LOCATION -p containerAppsEnvironmentName=$ENVIRONMENT_NAME \
