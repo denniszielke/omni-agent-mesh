@@ -16,3 +16,4 @@ aiohttp==3.13.2
 aiohttp-sse==2.2.0
 gunicorn==23.0.0
 python-dotenv==1.2.1
+fastmcp==2.13.1
