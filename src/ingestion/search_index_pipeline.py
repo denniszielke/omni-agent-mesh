@@ -51,7 +51,7 @@ class SearchIndexMaintainer:
         self.embedding_model = embedding_model or os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME", "text-embedding-3-small")
         self.embedding_dimensions = embedding_dimensions or int(os.getenv("AZURE_OPENAI_EMBEDDING_DIMENSIONS", "1536"))
         self.api_version = api_version or os.getenv("AZURE_OPENAI_API_VERSION", "2024-10-21")
-        self.query_samples_path = query_samples_path or os.path.join(os.path.dirname(__file__), "query-samples.json")
+        self.query_samples_path = query_samples_path or os.path.join(os.path.dirname(__file__), "hr-policy-samples.json")
         
         logger.info(f"Initialized SearchIndexMaintainer: index='{self.index_name}', endpoint='{self.search_endpoint}', embedding_model='{self.embedding_model}'")
         
@@ -283,8 +283,8 @@ class SearchIndexMaintainer:
         
         docs = self.load_samples_from_file(samples_path)
         if not docs:
-            logger.warning("No documents found in query-samples.json")
-            print("No documents found in query-samples.json")
+            logger.warning("No documents found in hr-policy-samples.json")
+            print("No documents found in hr-policy-samples.json")
             return
         
         logger.info(f"Uploading {len(docs)} documents to index '{self.index_name}'...")

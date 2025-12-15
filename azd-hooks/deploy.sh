@@ -40,8 +40,11 @@ OPENAI_NAME=$(az resource list -g $RESOURCE_GROUP --resource-type "Microsoft.Cog
 ENVIRONMENT_NAME=$(az resource list -g $RESOURCE_GROUP --resource-type "Microsoft.App/managedEnvironments" --query "[0].name" -o tsv)
 IDENTITY_NAME=$(az resource list -g $RESOURCE_GROUP --resource-type "Microsoft.ManagedIdentity/userAssignedIdentities" --query "[0].name" -o tsv)
 SEARCH_NAME=$(az resource list -g $RESOURCE_GROUP --resource-type "Microsoft.Search/searchServices" --query "[0].name" -o tsv)
+ENVIRONMENT_ID=$(az resource list -g $RESOURCE_GROUP --resource-type "Microsoft.App/managedEnvironments" --query "[0].id" -o tsv)
 SERVICE_NAME=$APP_NAME
 AZURE_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+DEFAULT_DOMAIN=$(az rest --method get \
+    --url "https://management.azure.com/$ENVIRONMENT_ID?api-version=2026-01-01" --query "properties.defaultDomain" -o tsv)
 
 AZURE_AI_SEARCH_INDEX_NAME="hr-policies-index"
 AZURE_OPENAI_SMALL_CHAT_MODEL="gpt-4.1-mini"
@@ -60,15 +63,6 @@ echo "identity name: $IDENTITY_NAME"
 echo "service name: $SERVICE_NAME"
 echo "search name: $SEARCH_NAME"
 
-CONTAINER_APP_EXISTS=$(az resource list -g $RESOURCE_GROUP --resource-type "Microsoft.App/containerApps" --query "[?contains(name, '$SERVICE_NAME')].id" -o tsv)
-EXISTS="false"
-
-if [ "$CONTAINER_APP_EXISTS" == "" ]; then
-    echo "container app $SERVICE_NAME does not exist"
-else
-    echo "container app $SERVICE_NAME already exists"
-    EXISTS="true"
-fi
 
 IMAGE_TAG=$(date '+%m%d%H%M%S')
 
@@ -80,7 +74,7 @@ IMAGE_NAME="${AZURE_CONTAINER_REGISTRY_NAME}.azurecr.io/$SERVICE_NAME:$IMAGE_TAG
 echo "deploying image: $IMAGE_NAME"
 
 SERVICE_NAME="${APP_NAME//_/-}"
-INTRANET_MCP_SERVER_URL="https://mcp-05-intranet-server.northcentralus.azurecontainerapps.io/mcp"
+INTRANET_MCP_SERVER_URL="https://mcp-05-intranet-server.$DEFAULT_DOMAIN/mcp"
 
 az deployment group create -g $RESOURCE_GROUP -f ./infra/app/frontend.bicep \
           -p name=$SERVICE_NAME -p location=$LOCATION -p containerAppsEnvironmentName=$ENVIRONMENT_NAME \
@@ -93,4 +87,4 @@ az deployment group create -g $RESOURCE_GROUP -f ./infra/app/frontend.bicep \
           -p openaiApiVersion=$AZURE_OPENAI_VERSION \
           -p searchName=$SEARCH_NAME -p searchEndpoint="https://$SEARCH_NAME.search.windows.net" \
           -p mcpServerUrl=$INTRANET_MCP_SERVER_URL \
-          -p identityName=$IDENTITY_NAME -p imageName=$IMAGE_NAME -p exists=$EXISTS --query properties.outputs
+          -p identityName=$IDENTITY_NAME -p imageName=$IMAGE_NAME --query properties.outputs

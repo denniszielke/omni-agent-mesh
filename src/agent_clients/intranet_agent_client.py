@@ -46,11 +46,14 @@ Visit the README.md for more details on setting up and running A2A agents.
 async def main():
     """Demonstrates connecting to and communicating with an A2A-compliant agent."""
     # Get A2A agent host from environment, defaulting to the local WorkEnv agent
+
     a2a_agent_host = os.getenv("A2A_AGENT_HOST", f"http://localhost:8080")
 
     default_domain = os.environ.get("DEFAULT_DOMAIN", "").strip()
     if default_domain:
-        a2a_agent_host = f"https://work-env-agent.{default_domain}"
+        a2a_agent_host = f"https://intranet-agent.{default_domain}"
+
+    print(f"Connecting to A2A agent at: {a2a_agent_host}")
 
     # Initialize A2ACardResolver
     async with httpx.AsyncClient(timeout=80.0) as http_client:
@@ -74,7 +77,7 @@ async def main():
         # Invoke the agent and output the result
         print("\nSending message to Work Environment agent...")
         response = await agent.run(
-            "How many vacation days do employees in Germany receive?"
+            "Tell me the latest news for my IT department from the Intranet"
         )
 
         # Print the response
@@ -85,15 +88,6 @@ async def main():
         print("\nSending message to Work Environment agent...")
         response = await agent.run(
             "How many vacation days do I have here in Germany?"
-        )
-
-        print("\nAgent Response:")
-        for message in response.messages:
-            print(message.text)
-
-        print("\nSending message to Work Environment agent...")
-        response = await agent.run(
-            "What are the rules for parental leave in Germany?"
         )
 
         print("\nAgent Response:")

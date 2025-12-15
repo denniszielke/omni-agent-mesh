@@ -47,7 +47,7 @@ else:
     logging.getLogger('azure.monitor.opentelemetry.exporter.export').setLevel(logging.WARNING)
 
 # Create FastAPI app
-app = FastAPI(title="Kusto Workflow AG-UI Server")
+app = FastAPI(title="Workflow AG-UI Server")
 
 # Add CORS middleware
 app.add_middleware(
@@ -93,11 +93,7 @@ async def diagnostics() -> JSONResponse:
         "big_deployment": os.getenv("AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME") or "",
         "version": os.getenv("AZURE_OPENAI_VERSION") or "",
     }
-    # Kusto/search optional settings
-    diag["kusto"] = {
-        "cluster_url": bool(os.getenv("KUSTO_CLUSTER_URL")),
-        "database": bool(os.getenv("KUSTO_DATABASE")),
-    }
+
     diag["search"] = {
         "endpoint": bool(os.getenv("AZURE_SEARCH_ENDPOINT")),
         "index_name": os.getenv("AZURE_SEARCH_INDEX_NAME") or "",
@@ -238,7 +234,7 @@ async def delete_queries(filename: str):
     })
 
 
-# Add AG-UI endpoint for the Kusto workflow
+# Add AG-UI endpoint for the workflow
 # Convert workflow to agent using as_agent() method
 try:
     logger.info("Converting workflow to agent...")
@@ -311,7 +307,7 @@ async def workflow_safe(request):
             "We received your request"
             + (f": '{user_text}'. " if user_text else ". ")
             + "However, the main workflow encountered an internal error during execution. "
-              "Please check diagnostics (/diagnostics) and ensure Search/Kusto configs are set. "
+              "Please check diagnostics (/diagnostics) and ensure Search configs are set. "
               "You can use /workflow_sanity for basic chat validation."
         )
         # Stream as TEXT_DELTA chunks for UI rendering
@@ -334,7 +330,7 @@ def main():
     host = os.getenv("AGUI_HOST", "127.0.0.1")
     
     logger.info(f"\n{'='*60}")
-    logger.info("Kusto Workflow AG-UI Server")
+    logger.info("Workflow AG-UI Server")
     logger.info(f"{'='*60}")
     logger.info(f"Server running at: http://{host}:{port}")
     logger.info(f"Workflow endpoint: http://{host}:{port}/workflow")

@@ -45,6 +45,13 @@ def list_office_locations() -> list[str]:
     logger.info(f"Returning {len(result)} supported locations")
     return result
 
+@mcp.tool()
+def list_departments() -> list[str]:
+    """List the 10 different departments that this server supports."""
+    logger.info("Tool called: list_departments")
+    result = ["HR", "Finance", "Engineering", "Marketing", "Sales", "Customer Support", "IT", "Legal", "Operations", "R&D"]
+    logger.info(f"Returning {len(result)} supported departments")
+    return result
 
 NEWS_BY_LOCATION = {
     "St. Louis": ["New cafeteria opening next month.", "Annual company picnic scheduled for July."],
@@ -57,7 +64,6 @@ NEWS_BY_LOCATION = {
     "Leverkusen": ["Introduction of flexible working hours.", "New bike-to-work scheme launched."],
 }
 
-
 @mcp.tool()
 def get_news_for_office_locations(locations: list[str]) -> list[str]:
     """Get static weather for multiple supported locations at their current local times."""
@@ -68,7 +74,15 @@ def get_news_for_office_locations(locations: list[str]) -> list[str]:
     logger.info(f"Returning news for {len(results)} locations")
     return results
 
-
+@mcp.tool()
+def get_news_for_departments(departments: list[str]) -> list[str]:
+    """Get static weather for multiple supported locations at their current local times."""
+    logger.info(f"Tool called: get_news_for_departments(departments={departments})")
+    results: list[str] = []
+    for dept in departments:
+        results.append(f"Latest updates for {dept} department: [Static news item 1, Static news item 2]")
+    logger.info(f"Returning news for {len(results)} departments")
+    return results
 
 @mcp.prompt()
 def describe_intranet_capabilities() -> list[base.Message]:
@@ -83,8 +97,8 @@ def describe_intranet_capabilities() -> list[base.Message]:
                         "You are connected to a Intranet MCP server that provides "
                         "knowledge and information from the company Intranet. "
                         "Explain how to: (1) list news and knowledge specific to office locations, ",
-                        "(2) get documentation around the personell policies, regulations and documentation for benefits, payments and vacation, ",
-                        "(3) find specifc information about teams and departments within the company from the Intranet"
+                        "(2) list available departments and office locations inside the company, ",
+                        "(3) find news for specific departments within the company from the Intranet"
                     )
                 )
             ],

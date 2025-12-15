@@ -21,115 +21,96 @@ from intranet_agent.model_client import create_chat_client as _create_openai_cli
 from dotenv import load_dotenv
 
 load_dotenv()
-model_name = os.environ.get("AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME") or os.environ.get("COMPLETION_DEPLOYMENT_NAME")
+model_name = os.environ["AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME"]
 
 if not model_name:
-    raise ValueError("Please set AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME or COMPLETION_DEPLOYMENT_NAME in your .env file")
+    raise ValueError("Please set AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME  in your .env file")
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-logger = logging.getLogger("intranet-agent-executor")
-
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+logging.getLogger('azure.core.pipeline.policies.http_logging_policy').setLevel(logging.WARNING)
+logging.getLogger('azure.monitor.opentelemetry.exporter.export').setLevel(logging.WARNING)
 
 def intranet_agent_card(url: str) -> AgentCard:
-    """Define the agent card for the Intranet HR Policy agent."""
+    """Define the agent card for the Intranet News agent."""
     
-    hr_policy_skill = AgentSkill(
-        id='hr_policy_skill',
-        name='Answer HR policy questions',
+    office_locations_skill = AgentSkill(
+        id='office_locations_skill',
+        name='List and browse office locations',
         description=(
-            'The agent can answer questions about company HR policies including '
-            'working hours, leave requests, remote work, dress code, probation periods, '
-            'performance evaluations, and workplace complaints.'
+            'The agent can list all company office locations and retrieve '
+            'location-specific news and updates. Supported locations include '
+            'St. Louis, London, Berlin, and Leverkusen.'
         ),
-        tags=['hr', 'policy', 'intranet', 'working-hours', 'leave'],
+        tags=['offices', 'locations', 'intranet', 'news', 'updates'],
         examples=[
-            'What is the company\'s working hour policy?',
-            'How do I request time off?',
-            'What are the rules for remote work?',
-            'What is the probation period for new employees?',
-            'How often is performance evaluated?',
+            'What office locations does the company have?',
+            'List all office locations',
+            'Where are our company offices located?',
+            'Show me the available office sites',
         ],
     )
 
-    compensation_benefits_skill = AgentSkill(
-        id='compensation_benefits_skill',
-        name='Answer compensation and benefits questions',
+    office_news_skill = AgentSkill(
+        id='office_news_skill',
+        name='Get news for office locations',
         description=(
-            'The agent can answer questions about salary schedules, benefits, '
-            'payslips, overtime policy, bonuses, expense reimbursement, retirement, '
-            'and parental leave.'
+            'The agent can retrieve the latest news and announcements for specific '
+            'office locations including updates about facilities, events, and local initiatives.'
         ),
-        tags=['compensation', 'benefits', 'salary', 'bonus', 'leave'],
+        tags=['news', 'offices', 'announcements', 'updates', 'locations'],
         examples=[
-            'When do employees receive their salary?',
-            'What benefits does the company provide?',
-            'How do I access my payslip?',
-            'Does the company offer bonuses?',
-            'How do I apply for maternity leave?',
+            'What is the latest news from the St. Louis office?',
+            'Tell me about updates from the London office',
+            'What is happening at the Berlin office?',
+            'Get news for all office locations',
+            'Any announcements from the Leverkusen office?',
         ],
     )
 
-    training_development_skill = AgentSkill(
-        id='training_development_skill',
-        name='Answer training and development questions',
+    departments_skill = AgentSkill(
+        id='departments_skill',
+        name='List company departments',
         description=(
-            'The agent can answer questions about training programs, course enrollment, '
-            'higher education sponsorship, promotions, and mentorship opportunities.'
+            'The agent can list all company departments including HR, Finance, '
+            'Engineering, Marketing, Sales, Customer Support, IT, Legal, Operations, and R&D.'
         ),
-        tags=['training', 'development', 'promotion', 'mentorship', 'education'],
+        tags=['departments', 'organization', 'teams', 'structure'],
         examples=[
-            'What training programs does the company offer?',
-            'How do I enroll in a training course?',
-            'Does the company sponsor higher education?',
-            'How do promotions work?',
-            'Is mentorship available?',
+            'What departments does the company have?',
+            'List all departments',
+            'Show me the company structure',
+            'What teams are in the organization?',
         ],
     )
 
-    statutory_vacation_skill = AgentSkill(
-        id='statutory_vacation_skill',
-        name='Answer statutory vacation questions (Germany)',
+    department_news_skill = AgentSkill(
+        id='department_news_skill',
+        name='Get news for departments',
         description=(
-            'The agent can answer detailed questions about German statutory vacation '
-            'entitlement (BUrlG), including minimum days, carryover rules, part-time '
-            'calculations, probation accrual, and special cases.'
+            'The agent can retrieve the latest news and updates for specific '
+            'departments within the company.'
         ),
-        tags=['vacation', 'statutory', 'germany', 'burlg', 'leave'],
+        tags=['news', 'departments', 'updates', 'announcements', 'teams'],
         examples=[
-            'How many days of statutory vacation are required in Germany?',
-            'How is vacation calculated for part-time employees?',
-            'What happens to unused vacation?',
-            'Do severely disabled employees receive extra vacation?',
-            'What are my vacation rights during probation?',
-        ],
-    )
-
-    company_policy_skill = AgentSkill(
-        id='company_policy_skill',
-        name='Answer general company policy questions',
-        description=(
-            'The agent can answer questions about policy violations, workplace conflicts, '
-            'flexible working hours, sabbaticals, and how to contact HR.'
-        ),
-        tags=['policy', 'hr', 'conflict', 'flexible-hours', 'contact'],
-        examples=[
-            'What are the consequences of policy violations?',
-            'How does the company handle workplace conflicts?',
-            'Can I request flexible working hours?',
-            'Are employees allowed to take sabbaticals?',
-            'How can I contact HR?',
+            'What is the latest news from the Engineering department?',
+            'Tell me about updates from HR',
+            'What is happening in the Marketing team?',
+            'Get news for the Finance department',
+            'Any announcements from IT?',
         ],
     )
 
     agent_card = AgentCard(
-        name='HR Intranet Agent',
+        name='Intranet News Agent',
         description=(
-            'An HR intranet agent that provides comprehensive information about company '
-            'policies, compensation, benefits, training programs, and statutory vacation '
-            'entitlements (Germany). Access to internal HR knowledge base and policy documentation.'
+            'A company intranet agent that provides news and information about '
+            'office locations and departments. Can list available offices and departments, '
+            'and retrieve location-specific or department-specific news and announcements.'
         ),
         url=f'{url}',
         version='1.0.0',
@@ -141,21 +122,20 @@ def intranet_agent_card(url: str) -> AgentCard:
             streaming=False,
         ),
         skills=[
-            hr_policy_skill,
-            compensation_benefits_skill,
-            training_development_skill,
-            statutory_vacation_skill,
-            company_policy_skill,
+            office_locations_skill,
+            office_news_skill,
+            departments_skill,
+            department_news_skill,
         ],
         examples=[
-            'What is the company\'s working hour policy?',
-            'When do employees receive their salary?',
-            'How many vacation days do I get in Germany?',
-            'What training programs are available?',
-            'How do I request time off or leave?',
-            'What happens to unused vacation days?',
-            'Does the company offer bonuses or incentives?',
-            'How is vacation calculated for part-time employees?',
+            'What office locations does the company have?',
+            'What is the latest news from the St. Louis office?',
+            'List all departments',
+            'What is happening at the Berlin office?',
+            'Get news for the Engineering department',
+            'Tell me about updates from the London office',
+            'What departments are in the company?',
+            'Any announcements from the HR department?',
         ],
     )
     return agent_card
@@ -166,7 +146,7 @@ class IntranetAgentExecutor(AgentExecutor):
 
     def __init__(self):
         logging.info("Creating IntranetAgentExecutor with model %s", model_name)
-        self.chat_client = _create_openai_client(model_name)
+        self.agent = _create_openai_client(model_name)
         
         # Get the MCP server URL from environment or use default
         self.mcp_server_url = os.getenv("INTRANET_MCP_SERVER_URL", "http://localhost:8001/mcp")
@@ -178,7 +158,6 @@ class IntranetAgentExecutor(AgentExecutor):
         context: RequestContext,
         event_queue: EventQueue,
     ) -> None:
-        from agent_framework import ChatAgent
         
         task = context.current_task
 
@@ -191,58 +170,54 @@ class IntranetAgentExecutor(AgentExecutor):
 
         query = context.get_user_input()
 
-        # Create ChatAgent with HostedMCPTool pointing to the Intranet MCP server
-        async with ChatAgent(
-            chat_client=self.chat_client,
-            name="HRIntranetAgent",
-            instructions=(
-                "You are a helpful HR intranet assistant with access to the company's HR policy knowledge base. "
-                "You can answer questions about:\n"
-                "- HR policies (working hours, leave requests, remote work, dress code, probation, performance reviews)\n"
-                "- Compensation & Benefits (salary, bonuses, payslips, overtime, retirement, parental leave)\n"
-                "- Training & Development (courses, sponsorship, promotions, mentorship)\n"
-                "- Statutory Vacation Entitlements in Germany (BUrlG regulations, minimum days, carryover, part-time calculations)\n"
-                "- Company policies (violations, conflicts, flexible hours, sabbaticals, HR contact)\n\n"
-                "Use the available tools to search the HR knowledge base and provide accurate, helpful answers. "
-                "Always cite relevant policies when applicable. Be professional and concise."
-            ),
-            tools=MCPStreamableHTTPTool(
-                name="HR Intranet MCP",
-                url=self.mcp_server_url,
-            ),
-        ) as agent:
-            result = await agent.run(query)
-            
-            # Extract the text response
-            response_text = ""
-            for msg in result.messages:
-                if msg.role == "assistant" and msg.text:
-                    response_text += msg.text
+        system_prompt=(
+                "You are a helpful intranet assistant with access to the company's intranet news system. "
+                "You can help users with:\n"
+                "- Listing all company office locations (St. Louis, London, Berlin, Leverkusen)\n"
+                "- Getting news and announcements for specific office locations\n"
+                "- Listing all company departments (HR, Finance, Engineering, Marketing, Sales, Customer Support, IT, Legal, Operations, R&D)\n"
+                "- Getting news and updates for specific departments\n\n"
+                "Use the available tools to retrieve office locations, departments, and their associated news. "
+                "Be helpful and provide relevant information from the intranet. Be professional and concise."
+        )
+        
+        query = system_prompt + "\n\nUser question: " + context.get_user_input()
 
-            if not response_text:
-                response_text = str(result)
+        # get_response may return a rich object; coerce to string for A2A
+        response = await self.agent.get_response(
+            query,
+            tools=[
+                MCPStreamableHTTPTool(
+                    name="Intranet News Server", 
+                    url=self.mcp_server_url
+                )
+            ],
+        )
 
-            await event_queue.enqueue_event(
-                TaskArtifactUpdateEvent(
-                    append=False,
-                    context_id=task.context_id,
-                    task_id=task.id,
-                    last_chunk=True,
-                    artifact=new_text_artifact(
-                        name='current_result',
-                        description='Result of request to HR intranet agent.',
-                        text=response_text,
-                    ),
-                )
+        # Ensure the artifact text is always a plain string
+        response_text = str(response)
+    
+        await event_queue.enqueue_event(
+            TaskArtifactUpdateEvent(
+                append=False,
+                context_id=task.context_id,
+                task_id=task.id,
+                last_chunk=True,
+                artifact=new_text_artifact(
+                    name='current_result',
+                    description='Result of request to intranet news agent.',
+                    text=response_text,
+                ),
             )
-            await event_queue.enqueue_event(
-                TaskStatusUpdateEvent(
-                    status=TaskStatus(state=TaskState.completed),
-                    final=True,
-                    context_id=task.context_id,
-                    task_id=task.id,
-                )
+        )
+        await event_queue.enqueue_event(
+            TaskStatusUpdateEvent(
+                status=TaskStatus(state=TaskState.completed),
+                final=True,
+                context_id=task.context_id,
+                task_id=task.id,
             )
+        )
 
     @override
     async def cancel(

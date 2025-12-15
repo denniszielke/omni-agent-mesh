@@ -66,7 +66,6 @@ def main(host: str, port: int):
 
     app.router.routes.append(Route("/_healthz", endpoint=healthz))
 
-
     uvicorn.run(app, host=host, port=port)
 
 

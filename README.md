@@ -33,12 +33,14 @@ source <(azd env get-values | grep AZURE_ENV_NAME)
 echo "building and deploying the work_env_agent agents"
 bash ./azd-hooks/deploy.sh work_env_agent $AZURE_ENV_NAME
 
-
 echo "building and deploying the intranet_agent agents"
 bash ./azd-hooks/deploy.sh intranet_agent $AZURE_ENV_NAME
 
 echo "building and deploying the intranet mcp server"
 bash ./azd-hooks/deploy-mcp.sh 05-intranet-server $AZURE_ENV_NAME
+
+echo "building and deploying the intranet mcp server"
+bash ./azd-hooks/deploy-mcp.sh 06-policy-server $AZURE_ENV_NAME
 ```
 
 ## 3. Configure environment (`.env`)
@@ -69,34 +71,34 @@ Then edit `.env` and set the following values for your Azure resources (these na
 
 Observability variables in `.env.example` are optional and can normally stay commented out for local dev.
 
-## 4. Populate Azure AI Search index from sample queries
+## 4. Populate Azure AI Search index from HR policy samples
 
-The file `src/ingestion/query-samples.json` contains example queries that will be indexed in Azure AI Search. To create/populate the index:
+The file `src/ingestion/hr-policy-samples.json` contains example HR policy documents that will be indexed in Azure AI Search. To create/populate the index:
 
 1. Ensure `.env` has valid **Azure OpenAI** and **Azure AI Search** settings (see above).
 2. Activate your virtual environment.
 3. From the repo root, run the ingestion script:
 
 ```bash
-cd /src/ingestion
-python search-index-pipeline.py
+cd src/ingestion
+python search_index_pipeline.py
 ```
 
 This will:
 
 - Create the index (if it does not exist) with vector search enabled.
-- Read all entries from `src/ingestion/query-samples.json`.
+- Read all entries from `src/ingestion/hr-policy-samples.json`.
 - Call the Azure OpenAI embedding deployment to create `intent_vector` values.
 - Upload the documents into the configured search index.
 
 If you see errors, verify:
 
-- `AZURE_SEARCH_SERVICE_ENDPOINT` and `AZURE_SEARCH_ADMIN_KEY` are correct.
+- `AZURE_AI_SEARCH_ENDPOINT` and `AZURE_AI_SEARCH_KEY` are correct.
 - The Azure OpenAI embedding deployment name, endpoint, and API version are valid.
 
 ## 5. Run the workflow locally with DevUI
 
-The  multi‑agent workflow (including DevUI) is defined in `src/workflows/workflow.py`.
+The multi‑agent workflow (including DevUI) is defined in `src/workflows/planning_workflow.py`.
 
 1. Make sure `.env` contains working **Azure OpenAI**, **Azure AI Search**.
 2. Activate your virtual environment.
@@ -104,7 +106,7 @@ The  multi‑agent workflow (including DevUI) is defined in `src/workflows/workf
 
 ```bash
 cd src
-python -m workflows.workflow
+python -m workflows.planning_workflow
 ```
 
 The DevUI will:
@@ -115,4 +117,4 @@ The DevUI will:
 From there you can:
 
 - Enter natural‑language questions.
-- Let the agents search for similar queries in Azure AI Search.
+- Let the agents search for similar HR policy documents in Azure AI Search.

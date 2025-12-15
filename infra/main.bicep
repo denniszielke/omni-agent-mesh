@@ -14,12 +14,10 @@ param resourceGroupName string = ''
 param containerAppsEnvironmentName string = ''
 param containerRegistryName string = ''
 param openaiName string = ''
-param apiContainerAppName string = 'frontend'
 param applicationInsightsDashboardName string = ''
 param applicationInsightsName string = ''
 param logAnalyticsName string = ''
 param aiSearchIndexName string = 'queries-index'
-param frontendExists bool = false
 
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
@@ -95,32 +93,6 @@ module containerApps './core/host/container-apps.bicep' = {
   }
 }
 
-// Frontend Container App
-module frontend './app/frontend.bicep' = {
-  name: 'frontend'
-  scope: resourceGroup
-  params: {
-    name: !empty(apiContainerAppName) ? apiContainerAppName : '${abbrs.appContainerApps}api-${resourceToken}'
-    location: location
-    tags: tags
-    imageName: ''
-    identityName: '${abbrs.managedIdentityUserAssignedIdentities}api-agents'
-    applicationInsightsName: monitoring.outputs.applicationInsightsName
-    containerAppsEnvironmentName: containerApps.outputs.environmentName
-    containerRegistryName: containerApps.outputs.registryName
-    openaiName: openai.outputs.openaiName
-    searchName: search.outputs.searchName
-    searchEndpoint: search.outputs.searchEndpoint
-    openaiApiVersion: openaiApiVersion
-    openaiEndpoint: openai.outputs.openaiEndpoint
-    smallCompletionDeploymentName: smallCompletionDeploymentModelName
-    bigCompletionDeploymentName: bigCompletionDeploymentModelName
-    embeddingDeploymentModelName: embeddingDeploymentModelName
-    searchIndexName: aiSearchIndexName
-    exists: frontendExists
-  }
-}
-
 // Azure OpenAI Model
 module openai './ai/openai.bicep' = {
   name: 'openai'
@@ -168,7 +140,6 @@ output APPLICATIONINSIGHTS_NAME string = monitoring.outputs.applicationInsightsN
 output AZURE_CONTAINER_ENVIRONMENT_NAME string = containerApps.outputs.environmentName
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = containerApps.outputs.registryLoginServer
 output AZURE_CONTAINER_REGISTRY_NAME string = containerApps.outputs.registryName
-output SERVICE_NAME_FRONTEND string = frontend.outputs.SERVICE_API_NAME
 output OPENAI_API_TYPE string = 'azure'
 output AZURE_OPENAI_VERSION string = openaiApiVersion
 output AZURE_OPENAI_API_KEY string = openai.outputs.openaiKey
@@ -179,10 +150,12 @@ output AZURE_OPENAI_BIG_CHAT_MODEL string = bigCompletionModelName
 output AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME string = bigCompletionDeploymentModelName
 output AZURE_OPENAI_EMBEDDING_MODEL string = embeddingModelName
 output AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME string = embeddingDeploymentModelName
-output FRONTEND_URL string = frontend.outputs.SERVICE_API_URI
+output DEFAULT_DOMAIN string = containerApps.outputs.defaultDomain
 output AZURE_AI_SEARCH_NAME string = search.outputs.searchName
 output AZURE_AI_SEARCH_ENDPOINT string = search.outputs.searchEndpoint
 output AZURE_AI_SEARCH_KEY string = search.outputs.searchAdminKey
 output AZURE_AI_SEARCH_INDEX_NAME string = aiSearchIndexName
 output AZURE_OPENAI_EMBEDDING_DIMENSIONS string = '1536'
 output AZURE_OPENAI_API_VERSION string = openaiApiVersion
+output INTRANET_MCP_SERVER_URL string = 'https://mcp-05-intranet-server.${containerApps.outputs.defaultDomain}/mcp'
+output POLICY_MCP_SERVER_URL string = 'https://mcp-06-policy-server.${containerApps.outputs.defaultDomain}/mcp'

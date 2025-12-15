@@ -10,7 +10,6 @@ param secrets array = []
 param env array = []
 param external bool = true
 param targetPort int = 8080
-param exists bool
 param openaiName string
 param searchName string
 
@@ -22,10 +21,6 @@ param containerCpuCoreCount string = '0.5'
 
 @description('Memory allocated to a single container instance, e.g. 1Gi')
 param containerMemory string = '1.0Gi'
-
-resource existingApp 'Microsoft.App/containerApps@2022-03-01' existing = if (exists) {
-  name: name
-}
 
 module app 'container-app.bicep' = {
   name: '${deployment().name}-update'

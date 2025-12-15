@@ -1,4 +1,4 @@
-"""Smoke test for AG UI Kusto workflow server.
+"""Smoke test for AG UI workflow server.
 
 Steps:
 1. Start the AG UI server as a subprocess
@@ -34,7 +34,7 @@ UPLOAD_URL = f"{BASE_URL}/upload"
 QUERIES_URL = f"{BASE_URL}/queries"
 
 ROOT = Path(__file__).parent.parent.parent
-QUERY_FILE = ROOT / "src" / "ingestion" / "query-samples.json"
+QUERY_FILE = ROOT / "src" / "ingestion" / "hr-policy-samples.json"
 
 class SmokeTestError(Exception):
     pass
@@ -61,28 +61,6 @@ def wait_for_server(timeout: float = 30.0) -> None:
                 pass
             time.sleep(0.7)
     raise SmokeTestError("Server did not start within timeout")
-
-def upload_queries() -> Dict[str, Any]:
-    if not QUERY_FILE.exists():
-        raise SmokeTestError(f"Query file not found at {QUERY_FILE}")
-    print(f"[INFO] Uploading {QUERY_FILE.name}...")
-    with httpx.Client(timeout=30.0) as client:
-        with open(QUERY_FILE, "rb") as f:
-            files = {"file": (QUERY_FILE.name, f, "application/json")}
-            r = client.post(UPLOAD_URL, files=files)
-            r.raise_for_status()
-            data = r.json()
-            print(f"[INFO] Upload response: {data['query_count']} queries accepted.")
-            return data
-
-def list_queries() -> Dict[str, Any]:
-    print("[INFO] Listing uploaded queries...")
-    with httpx.Client(timeout=10.0) as client:
-        r = client.get(QUERIES_URL)
-        r.raise_for_status()
-        data = r.json()
-        print(f"[INFO] Uploaded files: {data['uploaded_files']}")
-        return data
 
 def stream_workflow(message: str) -> Dict[str, Any]:
     print(f"[INFO] Sending workflow message: {message}")
@@ -132,9 +110,7 @@ def main() -> int:
     server_proc = start_server()
     try:
         wait_for_server()
-        upload_queries()
-        list_queries()
-        stream_workflow("Generate a Kusto query to retrieve equipment properties for line UWM3 and explain the filters.")
+        stream_workflow("Generate a query to retrieve equipment properties for line UWM3 and explain the filters.")
         print("\n[RESULT] Smoke test completed successfully.")
         return 0
     except Exception as e:

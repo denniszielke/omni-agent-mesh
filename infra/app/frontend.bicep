@@ -28,7 +28,6 @@ param mcpServerUrl string = ''
 
 param searchIndexName string
 
-param exists bool
 param identityName string
 param applicationInsightsName string
 param containerAppsEnvironmentName string
@@ -52,7 +51,6 @@ module app '../core/host/container-app-upsert.bicep' = {
     imageName: imageName
     tags: union(tags, { 'azd-service-name': serviceName })
     identityName: identityName
-    exists: exists
     openaiName: openaiName
     containerAppsEnvironmentName: containerAppsEnvironmentName
     containerRegistryName: containerRegistryName

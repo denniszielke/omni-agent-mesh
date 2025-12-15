@@ -27,7 +27,7 @@ class A2ARequestHandler(DefaultRequestHandler):
 
 @click.command()
 @click.option('--host', 'host', default='0.0.0.0')
-@click.option('--port', 'port', default=8082)
+@click.option('--port', 'port', default=8080)
 def main(host: str, port: int):
     """Start the Intranet A2A agent server."""
 
