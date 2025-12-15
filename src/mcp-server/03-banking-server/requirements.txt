@@ -1,0 +1,6 @@
+agent-framework
+openai
+python-dotenv
+uvicorn
+fastapi
+mcp-server

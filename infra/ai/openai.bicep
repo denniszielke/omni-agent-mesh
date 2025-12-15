@@ -1,0 +1,68 @@
+param name string
+param location string = resourceGroup().location
+param tags object = {}
+param capacity int = 50
+
+param kind string = 'OpenAI'
+// Public network access of the Azure OpenAI service
+param publicNetworkAccess string = 'Enabled'
+// SKU of the Azure OpenAI service
+param sku object = {
+  name: 'S0'
+}
+
+param customDomainName string
+
+param deployments array
+
+resource account 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' = {
+  name: name
+  location: location
+  sku: sku
+  kind: 'AIServices'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    allowProjectManagement: true
+    customSubDomainName: customDomainName
+    networkAcls: {
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+      ipRules: []
+    }
+    publicNetworkAccess: 'Enabled'
+    disableLocalAuth: true
+  }
+}
+
+resource project 'Microsoft.CognitiveServices/accounts/projects@2025-04-01-preview' = {
+  parent: account
+  name: name
+  location: location
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    description: name
+    displayName: name
+  }
+}
+
+// Deployments for the Azure OpenAI service
+@batchSize(1)
+resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = [for deployment in deployments: {
+  parent: account
+  name: deployment.name
+  sku: {
+    name: deployment.sku
+    capacity: capacity
+  }
+  properties: {
+    model: deployment.model
+  }
+}]
+
+output openaiEndpoint string = account.properties.endpoint
+output openaiKey string = listKeys(account.id, '2022-10-01').key1
+output openaiName string = account.name

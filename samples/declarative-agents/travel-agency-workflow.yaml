@@ -1,0 +1,20 @@
+kind: Workflow
+trigger:
+
+  kind: OnConversationStart
+  id: travel_agency_workflow
+  actions:
+
+    # First, use the location assistant to determine or confirm the user's location.
+    - kind: InvokeAgent
+      id: invoke_location_assistant
+      conversationId: =System.ConversationId
+      agent:
+        name: location-assistant
+
+    # Then, use the weather assistant to provide weather information for that location.
+    - kind: InvokeAgent
+      id: invoke_weather_assistant
+      conversationId: =System.ConversationId
+      agent:
+        name: weather-assistant
