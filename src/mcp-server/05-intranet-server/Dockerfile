@@ -16,11 +16,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 FROM python:3.12-slim
 ARG FILENAME
-ARG PORT=8002
+ARG PORT=8080
 ARG HOST=0.0.0.0
 WORKDIR /app
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 COPY . .
 EXPOSE $PORT
-ENTRYPOINT [ "python", "run-mcp-weather.py" ]
+ENTRYPOINT [ "python", "server-mcp-sse-intranet.py" ]

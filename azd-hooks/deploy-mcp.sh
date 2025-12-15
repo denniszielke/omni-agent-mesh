@@ -17,10 +17,10 @@ exit 0;
 fi
 
 
-if [[ $APP_NAME =~ ^[a-z0-9/_-]{5,15}$ ]]; then
+if [[ $APP_NAME =~ ^[a-z0-9/_-]{5,18}$ ]]; then
     echo "app name $APP_NAME is valid"
 else
-    echo "app name $APP_NAME  is invalid - only numbers and lower case min 5 and max 12 characters allowed - aborting"
+    echo "app name $APP_NAME  is invalid - only numbers and lower case min 5 and max 18 characters allowed - aborting"
     exit 0;
 fi
 
@@ -74,7 +74,7 @@ IMAGE_TAG=$(date '+%m%d%H%M%S')
 
 az acr build --subscription ${AZURE_SUBSCRIPTION_ID} --registry ${AZURE_CONTAINER_REGISTRY_NAME} \
     --image $SERVICE_NAME:$IMAGE_TAG \
-    --file ./Dockerfile.$APP_NAME .
+    --file ./src/mcp-server/$APP_NAME/Dockerfile .
 IMAGE_NAME="${AZURE_CONTAINER_REGISTRY_NAME}.azurecr.io/$SERVICE_NAME:$IMAGE_TAG"
 
 echo "deploying image: $IMAGE_NAME"

@@ -9,7 +9,7 @@ from a2a.server.apps import A2AStarletteApplication
 from a2a.server.request_handlers.default_request_handler import DefaultRequestHandler
 from a2a.server.tasks.inmemory_task_store import InMemoryTaskStore
 from a2a.types import GetTaskRequest, GetTaskResponse, SendMessageRequest, SendMessageResponse
-from src.intranet_agent.intranet_agent_executor import IntranetAgentExecutor, intranet_agent_card
+from intranet_agent.intranet_agent_executor import IntranetAgentExecutor, intranet_agent_card
 
 
 class A2ARequestHandler(DefaultRequestHandler):

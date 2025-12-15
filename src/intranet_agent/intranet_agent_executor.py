@@ -14,8 +14,13 @@ from a2a.types import (
     TaskStatusUpdateEvent,
 )
 from a2a.utils import new_task, new_text_artifact
+<<<<<<< HEAD
 from agent_framework import MCPStreamableHTTPTool
 from src.intranet_agent.model_client import create_chat_client as _create_openai_client
+=======
+from agent_framework import HostedMCPTool
+from intranet_agent.model_client import create_chat_client as _create_openai_client
+>>>>>>> 7cf0149b3471705ee445d872951158109141c0f0
 from dotenv import load_dotenv
 
 load_dotenv()

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glue product recommendation voice agent</title>
+    <script src="config.js" type="module"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Glue product recommendation voice agent</h1>
+    <div class="container">
+        <div class="left-column">
+            <button id="startSessionBtn">Start Session</button>
+            <!-- <span id="audioStatus" style="display:none;margin-left:10px;color:#4caf50;font-weight:bold;">Audio available</span> -->
+            <button id="closeSessionBtn">Close Session</button>
+            <audio id="audioElement" autoplay></audio>
+            <div id="logContainerSystem"></div>
+
+        </div>
+        <div class="right-column">
+            <div id="logContainer"></div>
+        </div>
+    </div>
+    <script src="app.js" type="module"></script>
+</body>
+</html>

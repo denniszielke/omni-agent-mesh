@@ -15,9 +15,9 @@ from a2a.types import (
     TaskStatusUpdateEvent,
 )
 from a2a.utils import new_agent_text_message, new_task, new_text_artifact
-from .model_client import create_chat_client as _create_openai_client
+from work_env_agent.model_client import create_chat_client as _create_openai_client
 from dotenv import load_dotenv
-from .policy_search_tool import PolicySearchTool
+from work_env_agent.policy_search_tool import PolicySearchTool
 from pydantic import Field
 
 load_dotenv()
