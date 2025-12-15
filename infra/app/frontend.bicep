@@ -22,6 +22,10 @@ param bigCompletionDeploymentName string
 @description('Name of the OpenAI Completion model deployment name.')
 param embeddingDeploymentModelName string
 
+@minLength(0)
+@description('URL of the MCP server.')
+param mcpServerUrl string = ''
+
 param searchIndexName string
 
 param exists bool
@@ -109,6 +113,10 @@ module app '../core/host/container-app-upsert.bicep' = {
       {
         name: 'AZURE_OPENAI_EMBEDDING_MODEL'
         value: embeddingDeploymentModelName
+      }
+      {
+        name: 'INTRANET_MCP_SERVER_URL'
+        value: mcpServerUrl
       }
     ]
     targetPort: 8080

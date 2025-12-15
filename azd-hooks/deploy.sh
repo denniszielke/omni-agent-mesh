@@ -80,6 +80,7 @@ IMAGE_NAME="${AZURE_CONTAINER_REGISTRY_NAME}.azurecr.io/$SERVICE_NAME:$IMAGE_TAG
 echo "deploying image: $IMAGE_NAME"
 
 SERVICE_NAME="${APP_NAME//_/-}"
+INTRANET_MCP_SERVER_URL="https://mcp-05-intranet-server.northcentralus.azurecontainerapps.io/mcp"
 
 az deployment group create -g $RESOURCE_GROUP -f ./infra/app/frontend.bicep \
           -p name=$SERVICE_NAME -p location=$LOCATION -p containerAppsEnvironmentName=$ENVIRONMENT_NAME \
@@ -91,4 +92,5 @@ az deployment group create -g $RESOURCE_GROUP -f ./infra/app/frontend.bicep \
           -p searchIndexName=$AZURE_AI_SEARCH_INDEX_NAME \
           -p openaiApiVersion=$AZURE_OPENAI_VERSION \
           -p searchName=$SEARCH_NAME -p searchEndpoint="https://$SEARCH_NAME.search.windows.net" \
+          -p mcpServerUrl=$INTRANET_MCP_SERVER_URL \
           -p identityName=$IDENTITY_NAME -p imageName=$IMAGE_NAME -p exists=$EXISTS --query properties.outputs

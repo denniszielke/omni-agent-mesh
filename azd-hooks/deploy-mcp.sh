@@ -74,12 +74,13 @@ IMAGE_TAG=$(date '+%m%d%H%M%S')
 
 az acr build --subscription ${AZURE_SUBSCRIPTION_ID} --registry ${AZURE_CONTAINER_REGISTRY_NAME} \
     --image $SERVICE_NAME:$IMAGE_TAG \
+    --build-arg APP_SOURCE=src/mcp-server/$APP_NAME \
     --file ./src/mcp-server/$APP_NAME/Dockerfile .
 IMAGE_NAME="${AZURE_CONTAINER_REGISTRY_NAME}.azurecr.io/$SERVICE_NAME:$IMAGE_TAG"
 
 echo "deploying image: $IMAGE_NAME"
 
-SERVICE_NAME="${APP_NAME//_/-}"
+SERVICE_NAME="mcp-${APP_NAME//_/-}"
 
 az deployment group create -g $RESOURCE_GROUP -f ./infra/app/frontend.bicep \
           -p name=$SERVICE_NAME -p location=$LOCATION -p containerAppsEnvironmentName=$ENVIRONMENT_NAME \
