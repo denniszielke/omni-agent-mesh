@@ -82,7 +82,16 @@ async def main():
 
         print("\nSending message to Work Environment agent...")
         response = await agent.run(
-            "What benefits are available for full-time employees?"
+            "How many vacation days do I have here in Germany?"
+        )
+
+        print("\nAgent Response:")
+        for message in response.messages:
+            print(message.text)
+
+        print("\nSending message to Work Environment agent...")
+        response = await agent.run(
+            "What are the rules for parental leave in Germany?"
         )
 
         print("\nAgent Response:")

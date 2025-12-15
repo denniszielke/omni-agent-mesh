@@ -7,6 +7,7 @@ import uvicorn
 from dotenv import load_dotenv
 from fastmcp import FastMCP
 from mcp.server.fastmcp.prompts import base
+from policy_search_tool import PolicySearchTool
 
 load_dotenv()
 
