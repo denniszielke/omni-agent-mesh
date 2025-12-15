@@ -111,7 +111,7 @@ module app '../core/host/container-app-upsert.bicep' = {
         value: embeddingDeploymentModelName
       }
     ]
-    targetPort: 8093
+    targetPort: 8080
   }
 }
 

@@ -74,7 +74,7 @@ IMAGE_TAG=$(date '+%m%d%H%M%S')
 
 az acr build --subscription ${AZURE_SUBSCRIPTION_ID} --registry ${AZURE_CONTAINER_REGISTRY_NAME} \
     --image $SERVICE_NAME:$IMAGE_TAG \
-    --file ./Dockerfile.workflow .
+    --file ./Dockerfile.$APP_NAME .
 IMAGE_NAME="${AZURE_CONTAINER_REGISTRY_NAME}.azurecr.io/$SERVICE_NAME:$IMAGE_TAG"
 
 echo "deploying image: $IMAGE_NAME"
