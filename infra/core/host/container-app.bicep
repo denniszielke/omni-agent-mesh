@@ -17,10 +17,10 @@ param searchName string
 param identityName string = ''
 
 @description('CPU cores allocated to a single container instance, e.g. 0.5')
-param containerCpuCoreCount string = '1'
+param containerCpuCoreCount string = '4'
 
 @description('Memory allocated to a single container instance, e.g. 1Gi')
-param containerMemory string = '2.0Gi'
+param containerMemory string = '8.0Gi'
 
 resource userIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
   name: identityName

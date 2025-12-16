@@ -11,7 +11,7 @@ This workflow demonstrates a multi-agent scenario:
 
 from json import tool
 import os
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, is_dataclass
 from typing import Any, Optional
 import logging
 
@@ -116,7 +116,12 @@ async def execute_agent_query(
 
     try:
         agent_query = await _agent_registry_tool.execute_agent(agent_id=agent_id, query=query)
-        return asdict(agent_query)
+        if is_dataclass(agent_query) and not isinstance(agent_query, type):
+            return asdict(agent_query)
+        elif isinstance(agent_query, dict):
+            return agent_query
+        else:
+            return {"result": str(agent_query)}
     except Exception as e:
         logging.exception("execute_agent_query failed")
         return [{"error": f"execute_agent_query: {str(e)}"}]

@@ -36,6 +36,9 @@ bash ./azd-hooks/deploy.sh work_env_agent $AZURE_ENV_NAME
 echo "building and deploying the intranet_agent agents"
 bash ./azd-hooks/deploy.sh intranet_agent $AZURE_ENV_NAME
 
+echo "building and deploying the agui_server agents"
+bash ./azd-hooks/deploy.sh agui_server $AZURE_ENV_NAME
+
 echo "building and deploying the intranet mcp server"
 bash ./azd-hooks/deploy-mcp.sh 05-intranet-server $AZURE_ENV_NAME
 
@@ -97,6 +100,30 @@ If you see errors, verify:
 - The Azure OpenAI embedding deployment name, endpoint, and API version are valid.
 
 ## 5. Run the workflow locally with DevUI
+
+The multi‑agent workflow (including DevUI) is defined in `src/workflows/planning_workflow.py`.
+
+1. Make sure `.env` contains working **Azure OpenAI**, **Azure AI Search**.
+2. Activate your virtual environment.
+3. Start the workflow from the repo root (or the `src/workflows` folder):
+
+```bash
+cd src
+python -m workflows.planning_workflow
+```
+
+The DevUI will:
+
+- Start a local server on `http://localhost:8093`.
+- Automatically open your browser (if supported) with the workflow UI.
+
+From there you can:
+
+- Enter natural‑language questions.
+- Let the agents search for similar HR policy documents in Azure AI Search.
+
+
+## 6. Run the workflow locally with AG-UI
 
 The multi‑agent workflow (including DevUI) is defined in `src/workflows/planning_workflow.py`.
 

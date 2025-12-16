@@ -1,0 +1,31 @@
+# Minimal image for running the Kusto workflow DevUI
+# Uses Python 3.12, matching the project requirement
+FROM python:3.12-slim
+
+# Install system dependencies (if any future libs need them)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set workdir
+WORKDIR /app
+
+# Copy dependency manifest and install dependencies first for better caching
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Copy only the workflow code (and its local dependencies)
+COPY src ./src
+
+# Expose DevUI port
+EXPOSE 8080
+
+# Environment variables are expected to be provided at runtime, e.g.
+
+ENV AGUI_HOST="0.0.0.0"
+ENV AGUI_PORT="8080"
+
+# Default command: start the Kusto workflow DevUI
+CMD ["sh", "-c", "python -m src.agui_server.agui_server"]

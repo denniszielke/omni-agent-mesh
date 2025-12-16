@@ -37,6 +37,7 @@ param imageName string
 param openaiApiVersion string
 param searchName string
 param searchEndpoint string
+param defaultDomain string = ''
 
 resource apiIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: identityName
@@ -115,6 +116,10 @@ module app '../core/host/container-app-upsert.bicep' = {
       {
         name: 'INTRANET_MCP_SERVER_URL'
         value: mcpServerUrl
+      }
+      {
+        name: 'DEFAULT_DOMAIN'
+        value: defaultDomain
       }
     ]
     targetPort: 8080

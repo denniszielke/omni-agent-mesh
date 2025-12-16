@@ -10,8 +10,9 @@ from a2a.types import (
     AgentCard,
 )
 from a2a.client import A2ACardResolver
+from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from agent_framework.a2a import A2AAgent
-
+from azure.ai.projects import AIProjectClient
 from src.data.agent_query_example import AgentQueryExample
 from src.data.semantic_agent_card import AgentRepositoryCard
 from src.intranet_agent.intranet_agent_card import intranet_agent_card as get_intranet_agent_card
@@ -176,67 +177,31 @@ class AgentRegistryTool():
             agent_repository_card = self.AGENT_CARDS[agent_id]
 
             if (agent_repository_card.is_foundry_agent == True):
-    # project_endpoint = os.environ.get("AZURE_AI_PROJECT_ENDPOINT", "").strip()
+                
+                project_endpoint = os.environ.get("AZURE_AI_PROJECT_ENDPOINT", "").strip()
+                if not project_endpoint:
+                    credential = DefaultAzureCredential()
+                    logger.error("AZURE_AI_PROJECT_ENDPOINT is not set in environment variables.")
+                    project_client = AIProjectClient(endpoint=project_endpoint, credential=credential)
 
-    # if not project_endpoint:
-    #     logger.error("AZURE_AI_PROJECT_ENDPOINT is missing. Set it in your .env file.")
-    #     raise Exception(
-    #         "AZURE_AI_PROJECT_ENDPOINT is not set. Please set it in your .env file."
-    #     )
+                    agent = project_client.agents.get(agent_name=agent_repository_card.name)
+                    print(f"Retrieved agent: {agent.name}")
 
-    # from azure.identity import DefaultAzureCredential
-    # from azure.ai.projects import AIProjectClient
+                    openai_client = project_client.get_openai_client()
 
-    # # Initialize the client
-    # project_client = AIProjectClient(
-    #     endpoint=project_endpoint,
-    #     credential=DefaultAzureCredential()
-    # )
-    # agents_client = project_client.agents
-    
-    # agent = agents_client.get_agent(agent_name)
-    # # thread = agents_client.threads.create()
-    # # # [END create_thread]
-    # # print(f"Created thread, thread ID: {thread.id}")
+                    # Reference the agent to get a response
+                    response = openai_client.responses.create(
+                        input=[{"role": "user", "content": query}],
+                        extra_body={"agent": {"name": agent.name, "type": "agent_reference"}},
+                    )
 
-    # # # List all threads for the agent
-    # # # [START list_threads]
-    # # threads = agents_client.threads.list()
-    # # # [END list_threads]
-
-    # # # [START create_message]
-    # # message = agents_client.messages.create(thread_id=thread.id, role="user", content="Hello, tell me a joke")
-    # # # [END create_message]
-    # # print(f"Created message, message ID: {message.id}")
-
-    # # # [START create_run]
-    # # run = agents_client.runs.create(thread_id=thread.id, agent_id=agent.id)
-
-    # # # Poll the run as long as run status is queued or in progress
-    # # while run.status in ["queued", "in_progress", "requires_action"]:
-    # #     # Wait for a second
-    # #     time.sleep(1)
-    # #     run = agents_client.runs.get(thread_id=thread.id, run_id=run.id)
-    # #     # [END create_run]
-    # #     print(f"Run status: {run.status}")
-
-    # # if run.status == "failed":
-    # #     print(f"Run error: {run.last_error}")
-
-    # # messages = agents_client.messages.list(thread_id=run.thread_id, order=ListSortOrder.ASCENDING)
-
-    # # for msg in messages:
-    # #     if msg.text_messages:
-    # #         last_text = msg.text_messages[-1]
-    # #         print(f"{msg.role}: {last_text.text.value}")
-
-    # # return 
-                return QueryExecutionResult(
-                    id=agent_id,
-                    query=query,
-                    content=str(response),
-                    score=1.0,
-                    is_error=False )
+                    print(f"Response output: {response.output_text}")
+                    return QueryExecutionResult(
+                        id=agent_id,
+                        query=query,
+                        content=str(response),
+                        score=1.0,
+                        is_error=False )
 
             if (agent_repository_card.is_a2a_agent == True):
                 a2a_agent_host = agent_repository_card.url

@@ -197,7 +197,7 @@ if static_dir.exists():
 def main():
     """Run the AG-UI server."""
     port = int(os.getenv("AGUI_PORT", "8090"))
-    host = os.getenv("AGUI_HOST", "127.0.0.1")
+    host = os.getenv("AGUI_HOST", "0.0.0.0")
     
     logger.info(f"\n{'='*60}")
     logger.info("Workflow AG-UI Server")
