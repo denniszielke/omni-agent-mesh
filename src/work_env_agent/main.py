@@ -16,7 +16,8 @@ from a2a.types import (
     SendMessageRequest,
     SendMessageResponse,
 )
-from work_env_agent.work_env_agent_executor import WorkEnvAgentExecutor, work_env_agent_card
+from work_env_agent.work_env_agent_executor import WorkEnvAgentExecutor
+from work_env_agent.work_env_agent_card import work_env_agent_card
 
 class A2ARequestHandler(DefaultRequestHandler):
     """A2A Request Handler for the A2A Repo Agent."""

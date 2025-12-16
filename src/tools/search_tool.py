@@ -8,7 +8,7 @@ from azure.search.documents.models import VectorizedQuery
 from azure.search.documents import SearchItemPaged
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
-from src.data.query_example import QueryExample
+from src.data.agent_query_example import QueryExample
 
 load_dotenv()
 

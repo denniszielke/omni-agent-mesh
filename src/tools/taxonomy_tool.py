@@ -7,22 +7,42 @@ class TaxonomyTool():
         logging.info("Initializing TaxonomyTool")
         
         
-        # Define domain hint mappings
+        # Define domain hint mappings based on available agent capabilities
         self.domain_hints = {
-            "Workshops": {
-                "description": "Workshop and event metadata",
-                "terms": ["Workshop", "WorkshopID", "WorkshopName", "location_id"],
-                "common_filters": ["location_id"]
+            "OfficeLocations": {
+                "description": "Company office locations and location-specific news",
+                "terms": ["office", "location", "St. Louis", "London", "Berlin", "Leverkusen", "site", "facilities"],
+                "common_filters": ["location", "city"]
             },
-            "Locations": {
-                "description": "Location details for workshops",
-                "terms": ["Location", "LocationID", "City", "State", "Country"],
-                "common_filters": ["Country", "State"]
+            "Departments": {
+                "description": "Company departments and department news",
+                "terms": ["department", "team", "HR", "Finance", "Engineering", "Marketing", "Sales", "Customer Support", "IT", "Legal", "Operations", "R&D", "organization", "structure"],
+                "common_filters": ["department"]
             },
-            "Payments": {
-                "description": "Payment and benefits information",
-                "terms": ["Payment", "Short Term Incentive (STI)", "Bonus", "Salary", "HealthInsurance"],
-                "common_filters": ["Salary", "Bonus"]
+            "IntranetNews": {
+                "description": "Company news, announcements, and updates",
+                "terms": ["news", "announcements", "updates", "events", "initiatives"],
+                "common_filters": ["location", "department"]
+            },
+            "VacationLeave": {
+                "description": "Vacation days, leave policies, and time-off entitlements",
+                "terms": ["vacation", "leave", "time-off", "PTO", "BUrlG", "statutory leave", "parental leave", "sabbatical", "unpaid leave", "carry over", "entitlement"],
+                "common_filters": ["leave_type", "country"]
+            },
+            "PerformanceCareer": {
+                "description": "Performance evaluations, promotions, and career development",
+                "terms": ["performance", "evaluation", "promotion", "training", "mentorship", "tuition", "career", "development", "programs"],
+                "common_filters": ["evaluation_type"]
+            },
+            "CompensationBenefits": {
+                "description": "Salary, bonuses, incentives, and employee benefits",
+                "terms": ["salary", "payment", "bonus", "incentive", "overtime", "expense", "reimbursement", "health benefits", "retirement", "compensation", "benefits"],
+                "common_filters": ["benefit_type"]
+            },
+            "HRPolicies": {
+                "description": "HR policies, workplace guidelines, and compliance",
+                "terms": ["HR", "policy", "working hours", "remote work", "dress code", "complaint", "harassment", "violation", "conflict resolution", "workplace", "guidelines"],
+                "common_filters": ["policy_type"]
             }
         }
 
