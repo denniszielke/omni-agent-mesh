@@ -1,4 +1,4 @@
-# Minimal image for running the Kusto workflow DevUI
+# Minimal image for running the Friday workflow DevUI
 # Uses Python 3.12, matching the project requirement
 FROM python:3.12-slim
 ARG APP_SOURCE=.
@@ -27,5 +27,5 @@ EXPOSE 8080
 ENV HOST="0.0.0.0"
 ENV PORT="8080"
 
-# Default command: start the Kusto workflow DevUI
+# Default command: start the Friday workflow DevUI
 CMD ["python", "server-mcp-sse-intranet.py"]

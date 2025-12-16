@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kusto Workflow - AG UI</title>
+    <title>Friday Workflow - AG UI</title>
     
     <!-- Kusto Trender CSS -->
     <link rel="stylesheet" href="https://unpkg.com/azure-kusto-trender@latest/dist/trender.css">
@@ -424,7 +424,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔍 Kusto Workflow Assistant</h1>
+            <h1>🔍 Friday Workflow Assistant</h1>
             <div class="status">
                 <span class="status-dot"></span>
                 <span>Connected</span>
@@ -461,11 +461,10 @@
                     <div class="message agent">
                         <div class="message-avatar">🤖</div>
                         <div class="message-content">
-                            <p>Hello! I'm your Kusto Query Assistant. I can help you:</p>
+                            <p>Hello! I'm your Friday Query Assistant. I can help you:</p>
                             <ul style="margin-left: 20px; margin-top: 10px;">
-                                <li>Generate Kusto queries based on your requirements</li>
+                                <li>Generate queries based on your requirements</li>
                                 <li>Validate query syntax</li>
-                                <li>Execute queries against Azure Data Explorer</li>
                                 <li>Analyze and summarize query results</li>
                             </ul>
                             <p style="margin-top: 10px;">You can upload a JSON file with test queries or ask me directly!</p>
@@ -478,7 +477,7 @@
                         <input 
                             type="text" 
                             id="userInput" 
-                            placeholder="Ask me about Kusto queries or describe what you want to analyze..." 
+                            placeholder="Ask me about queries or describe what you want to analyze..." 
                             onkeypress="handleKeyPress(event)"
                         />
                         <button onclick="sendMessage()" id="sendButton">

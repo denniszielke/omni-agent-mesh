@@ -57,13 +57,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Directory to store uploaded query files
-UPLOAD_DIR = Path(__file__).parent / "uploaded_queries"
-UPLOAD_DIR.mkdir(exist_ok=True)
-
-# Store for uploaded queries (in-memory, can be replaced with a database)
-uploaded_queries: dict[str, list[dict[str, Any]]] = {}
-
 @app.get("/health")
 async def health() -> JSONResponse:
     """Basic health check including required environment validation."""
@@ -92,13 +85,6 @@ async def diagnostics() -> JSONResponse:
         "big_deployment": os.getenv("AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME") or "",
         "version": os.getenv("AZURE_OPENAI_VERSION") or "",
     }
-
-    diag["search"] = {
-        "endpoint": bool(os.getenv("AZURE_SEARCH_ENDPOINT")),
-        "index_name": os.getenv("AZURE_SEARCH_INDEX_NAME") or "",
-    }
-    # Uploaded files
-    diag["uploaded_files"] = list(uploaded_queries.keys())
     # Runtime
     diag["server"] = {
         "host": os.getenv("AGUI_HOST", "127.0.0.1"),
@@ -218,8 +204,6 @@ def main():
     logger.info(f"{'='*60}")
     logger.info(f"Server running at: http://{host}:{port}")
     logger.info(f"Workflow endpoint: http://{host}:{port}/workflow")
-    logger.info(f"Upload endpoint: http://{host}:{port}/upload")
-    logger.info(f"Queries endpoint: http://{host}:{port}/queries")
     logger.info(f"{'='*60}\n")
     
     uvicorn.run(
