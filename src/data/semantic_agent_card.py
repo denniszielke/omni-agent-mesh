@@ -5,6 +5,8 @@ from typing import Optional
 class AgentRepositoryCard:
     """Represents a query example with metadata."""
     agent_id: str
+    is_foundry_agent: bool
+    is_a2a_agent: bool
     url: str
     name: str
     description: str

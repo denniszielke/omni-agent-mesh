@@ -90,6 +90,26 @@ async def setup_azure_ai_observability(enable_sensitive_data: bool | None = None
     setup_observability(applicationinsights_connection_string=conn_string, enable_sensitive_data=enable_sensitive_data)
     logger.info("Observability is set up with Application Insights connection string from Azure AI Project.")
 
+def create_foundry_chat_client(model_name: str, agent_name: str = "") -> BaseChatClient:
+    """Create an AzureAIAgentClient for Foundry."""
+
+    project_endpoint = os.environ.get("AZURE_AI_PROJECT_ENDPOINT", "").strip()
+
+    if not project_endpoint:
+        logger.error("AZURE_AI_PROJECT_ENDPOINT is missing. Set it in your .env file.")
+        raise Exception(
+            "AZURE_AI_PROJECT_ENDPOINT is not set. Please set it in your .env file."
+        )
+
+    credential = DefaultAzureCredential()
+    return AzureAIAgentClient(
+        project_endpoint=project_endpoint,
+        credential=credential,
+        model_deployment_name=model_name,
+        agent_name=agent_name,
+        should_cleanup_agent = False
+    )
+
 def create_chat_client(model_name: str, agent_name: str = "") -> BaseChatClient:
     """Create an OpenAIChatClient."""
 

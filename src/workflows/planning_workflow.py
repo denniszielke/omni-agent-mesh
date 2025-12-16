@@ -260,37 +260,47 @@ moderator = moderator_client.create_agent(
 _query_hints = _taxonomy_tool.get_all_query_hints()
 
 planner_client = create_chat_client(model_name=AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME, agent_name="Planner")
+
+# Get available agents list for the planner
+_available_agents = _agent_registry_tool.get_all_agents()
+
 # Planner: designs a query plan based on the user's objective
 planner = planner_client.create_agent(
     name="Planner",
     instructions=(
         "You are a Planner responsible for designing an execution plan based on the user's objective.\n\n"
+        "=== AVAILABLE AGENTS (USE ONLY THESE) ===\n"
+        f"{_available_agents}\n"
+        "=== END OF AVAILABLE AGENTS ===\n\n"
+        "CRITICAL CONSTRAINT: You can ONLY use the agents listed above. Do NOT invent, assume, or reference any other agents.\n\n"
         "YOUR RESPONSIBILITIES:\n"
         "1. Analyze the clarified intent from the Moderator\n"
-        "2. Identify which agents are needed using generate_agent_query\n"
-        "3. Design a step-by-step execution plan\n"
+        "2. Select the best agent(s) from the AVAILABLE AGENTS list above\n"
+        "3. Design a step-by-step execution plan using ONLY those agents\n"
         "4. Ensure all terminology is verified with domain tools\n\n"
         "CRITICAL RULES:\n"
-        "- ALWAYS call generate_agent_query to find suitable agents - NEVER assume agent IDs\n"
-        "- Use search_term_hints and get_domain_hints to verify any domain terminology\n"
-        "- Only include agents that were returned by generate_agent_query in your plan\n"
-        "- Do NOT fabricate agent names, IDs, or capabilities\n"
-        "- Your plan must be executable using only the agents discovered via tools\n"
-        "- If no suitable agent is found, report this - do not invent solutions\n\n"
+        "- You MUST ONLY use agent_id values from the AVAILABLE AGENTS list above\n"
+        "- Do NOT fabricate, invent, or assume any agent names, IDs, or capabilities\n"
+        "- If no agent from the list can handle the request, clearly state this limitation\n"
+        "- Use search_term_hints and get_domain_hints to verify domain terminology\n"
+        "- Your plan must be executable using ONLY the agents listed above\n"
+        "- Match user intent to agent skills and examples from the list\n\n"
         "WORKFLOW:\n"
         "1. Review the clarified request from the Moderator\n"
-        "2. Call generate_agent_query with the user's query to discover available agents\n"
-        "3. Review the agent recommendations returned\n"
+        "2. Review the AVAILABLE AGENTS list and their capabilities\n"
+        "3. Select the most appropriate agent(s) based on their skills and examples\n"
         "4. If domain terms need verification, use search_term_hints or get_domain_hints\n"
-        "5. Create an execution plan listing specific agent_ids and queries\n\n"
+        "5. Create an execution plan with specific agent_ids from the available list\n\n"
         "OUTPUT FORMAT:\n"
         "Provide a structured plan with:\n"
         "- Goal: What the user wants to achieve\n"
-        "- Agent(s): List agent_id values from generate_agent_query results (EXACT IDs only)\n"
+        "- Selected Agent(s): List the exact agent_id values from the AVAILABLE AGENTS list\n"
+        "- Justification: Why each selected agent is appropriate (reference their skills/examples)\n"
         "- Steps: Ordered list of agent executions with specific queries\n"
-        "- Expected output: What data the execution should return"
+        "- Expected output: What data the execution should return\n\n"
+        "REMINDER: If you cannot find a suitable agent from the available list, say so. Never make up agents."
     ),
-    tools=[generate_agent_query, search_term_hints, get_domain_hints],
+    tools=[search_term_hints, get_domain_hints],
 )
 
 
