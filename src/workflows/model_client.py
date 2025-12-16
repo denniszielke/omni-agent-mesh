@@ -101,6 +101,15 @@ def create_foundry_chat_client(model_name: str, agent_name: str = "") -> BaseCha
             "AZURE_AI_PROJECT_ENDPOINT is not set. Please set it in your .env file."
         )
 
+    from azure.identity import DefaultAzureCredential
+    from azure.ai.projects import AIProjectClient
+
+    # Initialize the client
+    project_client = AIProjectClient(
+        endpoint=project_endpoint,
+        credential=DefaultAzureCredential()
+    )
+
     credential = DefaultAzureCredential()
     return AzureAIAgentClient(
         project_endpoint=project_endpoint,

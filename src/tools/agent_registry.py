@@ -177,7 +177,21 @@ class AgentRegistryTool():
 
             if (agent_repository_card.is_foundry_agent == True):
                 foundry_agent = create_foundry_chat_client(AZURE_OPENAI_BIG_CHAT_DEPLOYMENT_NAME, agent_repository_card.name)
-                response = await foundry_agent.run(query)
+                
+                agent = ChatAgent(
+                    chat_client=medium_client,
+                    instructions="You are a helpful weather agent.",
+                    tools=get_weather,
+                )
+                # Create a new thread that will be reused
+                thread = agent.get_new_thread()
+
+                # First conversation
+                query1 = "What's the weather like in Tokyo?"
+                print(f"User: {query1}")
+                result1 = await agent.run(query1, thread=thread)
+                print(f"Agent: {result1.text}")
+
                 return QueryExecutionResult(
                     id=agent_id,
                     query=query,

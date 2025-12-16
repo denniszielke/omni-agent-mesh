@@ -23,8 +23,7 @@ from agent_framework.azure import AzureOpenAIChatClient
 # Add the parent directory (src) to the path to enable sibling imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from workflows.kusto_workflow import workflow
-from ingestion.search_index_pipeline import SearchIndexMaintainer
+from workflows.planning_workflow import workflow
 
 load_dotenv()
 
